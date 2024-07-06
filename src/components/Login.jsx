@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Link } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { validateLogin } from '../features/user/userSlice';
+// import { validateLogin } from '../features/user/userSlice';
+import { login } from '../features/user/authSlice';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -14,7 +15,8 @@ function Login() {
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      dispatch(validateLogin({ email, password }));
+      console.log("login", email, password)
+      dispatch(login({ email, password })).then((action) => {localStorage.setItem("accessToken", action.payload.pan.id)});
       navigate('/home')
     };
     const handleSignupRedirect = () => {
@@ -50,7 +52,7 @@ function Login() {
           size='small'
           required
         />
-        <Button className='flex w-9/12 rounded-md bg-indigo-600 ml-8 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-300' type="submit" variant="contained">
+        <Button className='flex w-9/12 rounded-md bg-indigo-600 ml-8 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-300' type="submit" variant="contained" onClick={handleSubmit}>
           Login
         </Button>
         <Typography variant="body2" align="center" className='pt-1'>

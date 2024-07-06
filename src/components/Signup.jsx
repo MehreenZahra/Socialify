@@ -5,8 +5,11 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { useDispatch, useSelector } from 'react-redux';
-import { validateSignup } from '../features/user/userSlice';
+// import { validateSignup } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { register } from '../features/user/authSlice';
+// import { CompressOutlined } from '@mui/icons-material';
+// import { lightGreen } from '@mui/material/colors';
 
 function Signup() {
     const [firstName, setFirstName] = useState('');
@@ -23,14 +26,17 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(validateSignup({ email, password, confirmPassword }));
+    
   };
   const handleLoginRedirect = () => {
     navigate('/login');
   };
   const handleSignupRedirect = () => {
+    console.log('register', firstName, lastName, email, password)
+    dispatch(register({ email, password, confirmPassword })).then(action => {localStorage.setItem('accessToken', action.payload.id)});
     if(localStorage.getItem("auth_token")) {
-    navigate('/home');
+      navigate('/home')
+    
   }};
 
 
@@ -112,7 +118,7 @@ function Signup() {
             <InputLabel id="gender-label">Gender</InputLabel>
             <Select
               labelId="gender-label"
-              name="gender"
+              name=""
               label="Gender"
               margin='normal'
               sx={{mb: 3, marginY : 0.5 }}
