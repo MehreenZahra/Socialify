@@ -1,129 +1,56 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from "axios";
+import { createSlice } from '@reduxjs/toolkit';
+// import axios from "axios";
 const validateEmail = (email) => /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
 const validatePassword = (password) => password.length >= 6;
 const initialState = {
-  currentUser: undefined,
-  isLoading: false,
+  // // currentUser: undefined,
+  // isLoading: false,
+  // user: JSON.parse(localStorage.getItem('user')) || null,
+  // isAuthenticated: !!localStorage.getItem('user'),
+  currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
+  users: JSON.parse(localStorage.getItem('users')) || [],
+  isAuthenticated: !!localStorage.getItem('currentUser'),
 };
 
-// export const Signup = createAsyncThunk(
-//   "user/Signup",
-//   async (userData, thunkAPI) => {
-//     try {
-//       const response = await axios.post("https://api.realworld.io/api/users", {
-//         user: userData,
-//       });
-//       return response.data.user;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data.errors);
-//     }
-//   }
-// );
-// export const Login = createAsyncThunk(
-//   "user/login",
-//   async (userData, thunkAPI) => {
-//     try {
-//       const response = await axios.post(
-//         "https://api.realworld.io/api/users/login",
-//         {
-//           user: userData,
-//         }
-//       );
-//       return response.data.user;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data.errors);
-//     }
-//   }
-// );
-// export const getCurrentUser = createAsyncThunk(
-//   "user/getCurrentUser",
-//   async (_, thunkAPI) => {
-//     try {
-//       const token = localStorage.getItem("accessToken") ?? "";
-//       const response = await axios.get("https://api.realworld.io/api/user", {
-//         headers: {
-//           Authorization: `Token ${token}`,
-//         },
-//       });
-//       return response.data.user;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data.errors);
-//     }
-//   }
-// );
-// export const Logout = createAsyncThunk("auth/logout", async () => {
-//   localStorage.removeItem("accessToken");
-// });
 
 
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: null,
-    emailError: '',
-    passwordError: '',
-    confirmPasswordError: '',
-  },
+  initialState,
   reducers: {
     login: (state, action) => {
       state.user = action.payload;
+      state.isAuthenticated = true;
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     logout: (state) => {
       state.user = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem('user');
     },
     validateLogin: (state, action) => {
       const { email, password } = action.payload;
       state.emailError = validateEmail(email) ? '' : 'Invalid email';
       state.passwordError = validatePassword(password) ? '' : 'Password must be at least 6 characters';
     },
-    Signup: (state, action) => {
+    signup: (state, action) => {
       const { email, password, confirmPassword } = action.payload;
       state.emailError = validateEmail(email) ? '' : 'Invalid email';
       state.passwordError = validatePassword(password) ? '' : 'Password must be at least 6 characters';
-      state.confirmPasswordError = password === confirmPassword ? '' : 'Passwords do not match';
+      // state.confirmPasswordError = password === confirmPassword ? '' : 'Passwords do not match';
+      // state.isAuthenticated = true;
+      // localStorage.setItem('user', JSON.stringify(action.payload));
+
+      const updatedUsers = [...state.users, action.payload];
+      state.users = updatedUsers;
+      state.currentUser = action.payload;
+      state.isAuthenticated = true;
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      localStorage.setItem('currentUser', JSON.stringify(action.payload));
     },
-    // extraReducers: (builder) => {
-    //   builder
-    //     .addCase(Signup.pending, (state) => {
-    //       state.isLoading = true;
-    //     })
-    //     .addCase(Signup.fulfilled, (state, action) => {
-    //       state.isLoading = false;
-    //       state.currentUser = action.payload;
-    //     })
-    //     .addCase(Signup.rejected, (state) => {
-    //       state.isLoading = false;
-    //     })
-    //     .addCase(login.pending, (state) => {
-    //       state.isLoading = true;
-    //     })
-    //     .addCase(login.fulfilled, (state, action) => {
-    //       state.isLoading = false;
-    //       state.currentUser = action.payload;
-    //     })
-    //     .addCase(login.rejected, (state) => {
-    //       state.isLoading = false;
-    //     })
-    //     .addCase(getCurrentUser.pending, (state) => {
-    //       state.isLoading = true;
-    //     })
-    //     .addCase(getCurrentUser.fulfilled, (state, action) => {
-    //       state.isLoading = false;
-    //       state.currentUser = action.payload;
-    //     })
-    //     .addCase(getCurrentUser.rejected, (state) => {
-    //       state.isLoading = false;
-    //       state.currentUser = null;
-    //     })
-    //     .addCase(logout.fulfilled, (state) => {
-    //       state.isLoading = false;
-    //       state.currentUser = null;
-    //     });
-    //   },
   },
 });
 
-export const { login, logout, validateLogin, Signup } = userSlice.actions;
+export const { login, logout, validateLogin, signup } = userSlice.actions;
 export default userSlice.reducer;

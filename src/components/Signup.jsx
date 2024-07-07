@@ -7,7 +7,8 @@ import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { useDispatch, useSelector } from 'react-redux';
 // import { validateSignup } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { register } from '../features/user/authSlice';
+import { signup } from '../features/user/userSlice';
+// import { register } from '../features/user/authSlice';
 // import { CompressOutlined } from '@mui/icons-material';
 // import { lightGreen } from '@mui/material/colors';
 
@@ -32,12 +33,15 @@ function Signup() {
     navigate('/login');
   };
   const handleSignupRedirect = () => {
-    console.log('register', firstName, lastName, email, password)
-    dispatch(register({ email, password, confirmPassword })).then(action => {localStorage.setItem('accessToken', action.payload.id)});
-    if(localStorage.getItem("auth_token")) {
-      navigate('/home')
+    console.log( firstName, lastName, email, password)
+    const userData = { id: Date.now(), firstName, lastName, email, password }; // Add any additional user data
+    dispatch(signup(userData));
+  //   dispatch(register({ email, password, confirmPassword })).then(action => {localStorage.setItem('accessToken', action.payload.id)});
+  //   if(localStorage.getItem("auth_token")) {
+  //     navigate('/home')
     
-  }};
+  // }
+  };
 
 
   return (   

@@ -4,7 +4,8 @@ import { TextField, Button, Container, Typography, Link } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { validateLogin } from '../features/user/userSlice';
-import { login } from '../features/user/authSlice';
+// import { login } from '../features/user/authSlice';
+import {login} from '../features/user/userSlice'
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,13 +13,21 @@ function Login() {
     const navigate = useNavigate();
     const emailError = useSelector((state) => state.user.emailError);
     const passwordError = useSelector((state) => state.user.passwordError);
+    const users = useSelector((state) => state.user.user); 
   
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("login", email, password)
-      dispatch(login({ email, password })).then((action) => {localStorage.setItem("accessToken", action.payload.pan.id)});
-      navigate('/home')
+      const user = users.find(u => u.email === email && u.password === password);
+      if (user) {
+        dispatch(login(user));
+      } else {
+        alert('Invalid credentials');
+      }
     };
+      // dispatch(login({ email, password })).then((action) => {localStorage.setItem("accessToken", action.payload.pan.id)});
+      // navigate('/home')
+    // };
     const handleSignupRedirect = () => {
       navigate('/signup');
     };
