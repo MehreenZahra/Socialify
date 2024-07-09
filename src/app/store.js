@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userReducer from '../features/user/userSlice';
+import postsReducer from '../features/posts/postsSlice'
 // import postsReducer from '../features/posts/postsSlice';
 
 // const loadState = () => {
@@ -26,6 +27,7 @@ import userReducer from '../features/user/userSlice';
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    posts: postsReducer,
   },
   // preloadedState: { user: persistedState },
 });
