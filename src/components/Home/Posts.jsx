@@ -7,14 +7,16 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
 import { fontSize } from '@mui/system';
-
+import { TimeAgo } from '../../features/posts/TimeAgo';
 function Posts() {
     const posts = useSelector(state => state.posts)
-    const renderedPosts = posts.map(post => (
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+
+    const renderedPosts = orderedPosts.map(post => (
       <Card sx={{ maxWidth: 565 , margin : 5 }}>
       <CardHeader
         avatar={
-          <Avatar src={post.avatar} aria-label="recipe">
+          <Avatar src={post.avatar} >
             R
           </Avatar>
         }
@@ -29,13 +31,14 @@ function Posts() {
           fontWeight: 'bold'
         }}
         title={post.title}
-        subheader="June 27, 2024  04:30 p.m"
+        // subheader="June 27, 2024  04:30 p.m"
+        // subheader= 
+        subheader={<TimeAgo timestamp={post.date} />}
       />
       <CardMedia
         component="img"
         height="20%"
         image={post.image}
-        alt="hunza-pic"
       />
       <CardContent>
         <Typography variant="body2" >

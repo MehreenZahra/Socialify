@@ -8,8 +8,8 @@ export default function Feed() {
     <Box  flex={4} p={2}>
       <PostInput/>
       <Posts/>
-      {/* <Posts/> */}
-      {/* <Posts/> */}
+      <Posts/>
+      <Posts/>
     </Box>
       
     

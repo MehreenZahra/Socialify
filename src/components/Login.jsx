@@ -24,6 +24,7 @@ function Login() {
       } else {
         alert('Invalid credentials');
       }
+    
     };
       // dispatch(login({ email, password })).then((action) => {localStorage.setItem("accessToken", action.payload.pan.id)});
       // navigate('/home')

@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, CardContent, CardActions, Grid, IconButton, Button ,CardHeader , Avatar , Badge} from '@mui/material'
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
+import { addPost } from '../../features/posts/postsSlice';
+import { useSelector } from 'react-redux'; 
+import { nanoid } from '@reduxjs/toolkit';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -33,11 +37,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   }));
   
-  const SmallAvatar = styled(Avatar)(({ theme }) => ({
-    width: 22,
-    height: 22,
-    border: `2px solid ${theme.palette.background.paper}`,
-  }));
+  // const SmallAvatar = styled(Avatar)(({ theme }) => ({
+  //   width: 22,
+  //   height: 22,
+  //   border: `2px solid ${theme.palette.background.paper}`,
+  // }));
   const blue = {
     100: '#DAECFF',
     200: '#b6daff',
@@ -90,11 +94,17 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     }
   `,
   );
-
-  
-
-
 function PostInput() {
+  const [content,setContent] = useState('')
+  const dispatch = useDispatch()
+  // const [media, setMedia] = useState(null)
+ 
+  const onPostSubmit = (e) => {
+    e.preventDefault();
+    dispatch(addPost({ content, media : null }));
+    setContent('')
+  };
+
   return (
     <div>
      <Card  sx={{ maxWidth: 565 , margin : 5 }}>
@@ -106,8 +116,8 @@ function PostInput() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-          <Avatar src='https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg'/>
-          </StyledBadge>
+         {<Avatar src='https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg'/>}
+        </StyledBadge>
             
           
         }
@@ -116,7 +126,9 @@ function PostInput() {
           </IconButton>
         }
         titleTypographyProps={{
-            fontSize: 18,
+            fontSize: 16,
+             variant : 'h6',
+          fontWeight: 'bold'
           }}
           subheaderTypographyProps={{
             fontSize: 10,
@@ -124,7 +136,13 @@ function PostInput() {
         title='Mehreen Zahra'
       />
       <CardContent>
-         <Textarea aria-label="minimum height" minRows={3} placeholder="Type Something to Post"  style={{ width: "100%" , height:"5%"}}/>
+        <Textarea 
+        aria-label="minimum height" 
+        minRows={3} 
+        placeholder="Type Something to Post" 
+        style={{ width: "100%" , height:"5%"}}
+        value = {content}
+        onChange={(e) => setContent(e.target.value)}/>
 
       </CardContent>
       <CardActions>
@@ -179,7 +197,7 @@ function PostInput() {
               fullWidth
               variant="contained"
               color="primary"
-            //   onClick={handlePostSubmit}
+              onClick={onPostSubmit}
             >
               Post
             </Button>
