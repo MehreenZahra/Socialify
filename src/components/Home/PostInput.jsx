@@ -5,8 +5,7 @@ import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../features/posts/postsSlice';
-import { useSelector } from 'react-redux'; 
-import { nanoid } from '@reduxjs/toolkit';
+import { createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -95,16 +94,22 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   `,
   );
 function PostInput() {
+  const [image, setImage] = useState('')
+  const [title, setTitle] = useState('')
   const [content,setContent] = useState('')
   const dispatch = useDispatch()
-  // const [media, setMedia] = useState(null)
- 
-  const onPostSubmit = (e) => {
+  const onPostSubmit = async (e) => {
     e.preventDefault();
-    dispatch(addPost({ content, media : null }));
-    setContent('')
+    const payload = { content,title: 'Mehreen Zahra', avatar: 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg', date: new Date().toISOString() };
+    if (image) { 
+      payload.image = image;
+    };
+    const resultAction = await dispatch(addPost(payload));
+    unwrapResult(resultAction); 
+    setContent('');
+    setTitle('');
+    setImage('');
   };
-
   return (
     <div>
      <Card  sx={{ maxWidth: 565 , margin : 5 }}>
@@ -134,6 +139,7 @@ function PostInput() {
             fontSize: 10,
           }}
         title='Mehreen Zahra'
+        onChange={(e) => setTitle(e.target.value)}
       />
       <CardContent>
         <Textarea 

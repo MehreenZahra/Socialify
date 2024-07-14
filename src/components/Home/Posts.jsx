@@ -8,6 +8,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
 import { fontSize } from '@mui/system';
 import { TimeAgo } from '../../features/posts/TimeAgo';
+
+
 function Posts() {
     const posts = useSelector(state => state.posts)
     const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
@@ -35,11 +37,11 @@ function Posts() {
         // subheader= 
         subheader={<TimeAgo timestamp={post.date} />}
       />
-      <CardMedia
+      {post.image ? ( <CardMedia
         component="img"
         height="20%"
         image={post.image}
-      />
+      />) : null}
       <CardContent>
         <Typography variant="body2" >
           {post.content}

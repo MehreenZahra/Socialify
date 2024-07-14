@@ -1,17 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from '@reduxjs/toolkit';
 import { sub } from 'date-fns'
-// import Posts from '../../components/Home/Posts';
 
 const initialState = [
-    { id: '1',
+    { id: nanoid(),
         avatar:"https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" ,
         title: 'Usama Shaukat',
         image:"https://images.pexels.com/photos/11852594/pexels-photo-11852594.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         content: "To travel is to take a journey into yourself” is a quote by Danny Kaye that speaks to the introspective aspect of travel. When we travel, we are not just physically moving from one place to another but also embarking on a journey of self-discovery. By stepping out of our comfort zones and exposing ourselves to new experiences, we gain a deeper understanding of ourselves and what we value. This quote reminds us that travel can be a powerful tool for personal growth and self-reflection.",
         date: sub(new Date(), { minutes: 10 }).toISOString(),
     },
-    {id: '2', 
+    {id: nanoid(), 
         avatar:"https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg",
         title: 'Mehreen Zahra',
         image:"https://images.pexels.com/photos/4866043/pexels-photo-4866043.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
@@ -25,15 +24,19 @@ const postsSlice = createSlice({
     initialState,
     reducers: {
         addPost(state, action) {
-            state.push(action.payload)
+            const postId = nanoid();
+            return [...state, { ...action.payload, postId,title: action.payload.title }];
           },
-          prepare( title, content, ) {
+          prepare( id,avatar ,title, content, image) {
             return {
               payload: {
+                id,
                 date: new Date().toISOString(),
+                avatar,
                 title,
                 content,
-        
+                image,
+              
               },
     }},
 }})
