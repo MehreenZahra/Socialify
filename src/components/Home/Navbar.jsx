@@ -6,6 +6,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
+import {  useSelector } from 'react-redux';
+// import { logout } from '../../features/user/userSlice';
 
 
 
@@ -26,14 +28,18 @@ const Icons = styled(Box)(({theme}) => ({
   }}));
  
 export default function Navbar() {
+  const user = useSelector((state) => state.user.user);
+  // const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
   const handleLogoutRedirect = () => {
-    navigate('/login');
+    // dispatch(logout());
+    navigate('/');
   };
   return (
     <AppBar position="sticky">
-      <StyledToolbar>
+      
+        <StyledToolbar>
         <Typography variant='h6' sx={{display:{xs:"none", sm:"block"}}}>Socialify</Typography>
         <Diversity2Icon sx={{display:{xs:"block", sm:"none"}}}/>
         <Search> <InputBase placeholder='Search...'/></Search>
@@ -45,10 +51,10 @@ export default function Navbar() {
         <NotificationsIcon />
        </Badge>
        <Avatar sx={{width:30, height:30}}alt="Cindy Baker" src="https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg" />
-       <Typography variant='span'>Mehreen</Typography>
+       {user && <Typography variant='span'>{user.firstName}</Typography>}
        <KeyboardArrowDownIcon fontSize='medium' onClick={e => setOpen(true)}></KeyboardArrowDownIcon>
         </Icons>
-      </StyledToolbar>
+      </StyledToolbar> 
       <Menu
         id="basic-menu"
         open={open}
@@ -70,7 +76,7 @@ export default function Navbar() {
         <MenuItem >
         <Link onClick={handleLogoutRedirect} >Logout </Link> 
         </MenuItem>
-      </Menu>
+      </Menu> 
     </AppBar>
   )
 }

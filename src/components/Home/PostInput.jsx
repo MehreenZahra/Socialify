@@ -3,9 +3,9 @@ import { Card, CardContent, CardActions, Grid, IconButton, Button ,CardHeader , 
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addPost } from '../../features/posts/postsSlice';
-import { createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
+import {  unwrapResult } from '@reduxjs/toolkit';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -95,19 +95,26 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   );
 function PostInput() {
   const [image, setImage] = useState('')
-  const [title, setTitle] = useState('')
+  // const [title, setTitle] = useState('')
   const [content,setContent] = useState('')
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const user = useSelector((state)=> state.user.user);
+
   const onPostSubmit = async (e) => {
     e.preventDefault();
-    const payload = { content,title: 'Mehreen Zahra', avatar: 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg', date: new Date().toISOString() };
+    const payload = { 
+      content,
+      title: `${user?.firstName || 'Anonymous'}${user?.lastName || ''}`.trim(),
+      avatar: user?.avatarUrl || 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg',
+      date: new Date().toISOString(),
+    };
     if (image) { 
       payload.image = image;
     };
     const resultAction = await dispatch(addPost(payload));
     unwrapResult(resultAction); 
     setContent('');
-    setTitle('');
+    // setTitle('');
     setImage('');
   };
   return (
@@ -121,7 +128,7 @@ function PostInput() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-         {<Avatar src='https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg'/>}
+         {<Avatar src={user?.avatarUrl || 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg'}/>}
         </StyledBadge>
             
           
@@ -138,8 +145,10 @@ function PostInput() {
           subheaderTypographyProps={{
             fontSize: 10,
           }}
-        title='Mehreen Zahra'
-        onChange={(e) => setTitle(e.target.value)}
+        // title={`${user?.firstName || 'Anonymous'} ${user?.lastName || ''}`.trim()}
+        title={`${user?.firstName || ''}${user?.firstName && user?.lastName ? ' ' : ''}${user?.lastName || ''}`.trim()}
+
+        
       />
       <CardContent>
         <Textarea 
@@ -160,7 +169,7 @@ function PostInput() {
               id="icon-button-photo"
               type="file"
               multiple
-            //   onChange={handleMediaChange}
+              onChange={(e) => setImage (e.target.files[0])}
             />
             <label htmlFor="icon-button-photo">
               <IconButton color="primary" component="span">
@@ -175,6 +184,7 @@ function PostInput() {
               id="icon-button-video"
               type="file"
               multiple
+              onChange={(e) => setImage (e.target.files[0])}
             //   onChange={handleMediaChange}
             />
             <label htmlFor="icon-button-video">

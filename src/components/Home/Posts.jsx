@@ -6,13 +6,14 @@ import React from 'react'
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useSelector } from 'react-redux';
-import { fontSize } from '@mui/system';
+// import { fontSize } from '@mui/system';
 import { TimeAgo } from '../../features/posts/TimeAgo';
 
 
 function Posts() {
-    const posts = useSelector(state => state.posts)
-    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date))
+    // const user = useSelector((state)=> state.user.user);
+    const posts = useSelector(state => state.posts);
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
 
     const renderedPosts = orderedPosts.map(post => (
       <Card sx={{ maxWidth: 565 , margin : 5 }}>
@@ -33,6 +34,7 @@ function Posts() {
           fontWeight: 'bold'
         }}
         title={post.title}
+        // title={`${user?.firstName || ''}${user?.firstName && user?.lastName ? ' ' : ''}${user?.lastName || ''}`.trim()}
         // subheader="June 27, 2024  04:30 p.m"
         // subheader= 
         subheader={<TimeAgo timestamp={post.date} />}

@@ -1,45 +1,36 @@
-// import React from 'react'
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography,  MenuItem, FormControl, InputLabel, Select , CssBaseline, Grid, Stack, Avatar, Link, Box} from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
-import { useDispatch, useSelector } from 'react-redux';
-// import { validateSignup } from '../features/user/userSlice';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signupAddUser } from '../features/user/userSlice';
-// import { register } from '../features/user/authSlice';
-// import { CompressOutlined } from '@mui/icons-material';
-// import { lightGreen } from '@mui/material/colors';
+import { signup } from '../features/user/userSlice';
 
-function Signup() {
-    const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+function Signup() { 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [dob, setDob] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState ('')
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [gender , setGender] = useState('');
+  const [dob, setDob] = useState('');
+  const [error, setError]= useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const emailError = useSelector((state) => state.user.emailError);
-  const passwordError = useSelector((state) => state.user.passwordError);
-  const confirmPasswordError = useSelector((state) => state.user.confirmPasswordError);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    if (!email || !password || !firstName){
+      setError ('All fields are required');
+      return;
+    }
+    dispatch(signup({ email, password, firstName, lastName, dob }))
+    navigate('/');
   };
   const handleLoginRedirect = () => {
-    navigate('/login');
-  };
-  const handleSignupRedirect = () => {
-    console.log( firstName, lastName, email, password)
-    // const userData = { token, firstName, lastName, email, password }; 
-    // dispatch(signupAddUser(userData));
-    dispatch(signupAddUser({ firstName,lastName, email, password,dob}));
-  };
-
-
+        navigate("/");
+       };
   return (   
       <Container component='main' maxWidth='sm' align='center'>
         <CssBaseline>
@@ -54,11 +45,11 @@ function Signup() {
         <TextField
         className='w-1/2 m-1'
           label="First Name"
+          helperText={'Your name must start with Capital letter'}
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           fullWidth
-          margin="normal"
-          required
+          margin="none"
         />
         <TextField
         className='w-1/2 m-1'
@@ -66,41 +57,37 @@ function Signup() {
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
           fullWidth
-          margin="normal"
+          margin="none"
         />
         </Stack>
         <TextField
+          Required
           className='p-1'
           label="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={!!emailError}
-          helperText={emailError}
           fullWidth
-          required
-          margin="normal"
+          margin="none"
           sx={{mb: 3 }}
         />
         <Stack spacing={2} direction="row" sx={{marginBottom: 1}}>
         <TextField
+         Required
         className='w-1/2 m-1'
           label="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={!!passwordError}
-          helperText={passwordError}
-          margin="normal"
+          margin="none"
         />
         <TextField
+         Required
          className='w-1/2 m-1'
           label="Confirm Password"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          error={!!confirmPasswordError}
-          helperText={confirmPasswordError}
-          margin="normal"
+          margin="none"
           sx={{mb: 3 }}
         />
         </Stack>
@@ -109,31 +96,31 @@ function Signup() {
           <DatePicker
             className='w-1/2 m-1'
             label="Date of Birth"
-            value={dob}
+            // value={dobDateObject} 
             onChange={setDob}
-            margin="normal"
+            margin="none"
           />
         </LocalizationProvider>
         <FormControl variant="outlined"  sx={{ m: 1, minWidth: 120 }}>
             <InputLabel id="gender-label">Gender</InputLabel>
             <Select
               labelId="gender-label"
-              name=""
+              value={gender}
               label="Gender"
-              margin='normal'
+              margin='none'
               sx={{mb: 3, marginY : 0.5 }}
+              onChange={(e) => setGender(e.target.value)} 
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
+              <MenuItem value="">None</MenuItem>
               <MenuItem value="female">Female</MenuItem>
               <MenuItem value="male">Male</MenuItem>
               <MenuItem value="other">Other</MenuItem>
             </Select>
         </FormControl>
         </Stack>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
         <div className='flex justify-center py-4'>
-        <Button type="submit" variant="contained"  size='medium' className='w-1/2 rounded-md bg-indigo-600 text-sm font-semibold text-white leading-6 shadow-sm hover:bg-indigo-300'   onClick={handleSignupRedirect}>
+        <Button type="submit" variant="contained"  size='medium' className='w-1/2 rounded-md bg-indigo-600 text-sm font-semibold text-white leading-6 shadow-sm hover:bg-indigo-300'   onClick={handleSubmit}>
         Signup
         </Button>
         </div>
