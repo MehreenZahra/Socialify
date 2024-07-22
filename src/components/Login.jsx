@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Link } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {login} from '../features/user/userSlice'
 function Login() {
-    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error,setError] = useState('');
@@ -16,9 +15,20 @@ function Login() {
       if (!email || !password) {
         setError('Email and password are required');
         return;
+      } 
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const userFound = users.find(user => user.email === email);
+     
+      if (userFound) {
+        if (userFound.password === password && userFound.email === email) {
+          dispatch(login({ email, password }));
+          navigate('/home');
+        } else {
+          setError('Invalid password or email');
+        }
+      } else {
+        setError('Invalid email or password');
       }
-      dispatch(login({ email, password }));
-      navigate('/home');
     };
   
       const handleSignupRedirect = () => {

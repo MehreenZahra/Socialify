@@ -24,6 +24,9 @@ function Signup() {
     if (!email || !password || !firstName){
       setError ('All fields are required');
       return;
+    } else if (password !== confirmPassword){
+      setError ('Password donot match')
+      return;
     }
     dispatch(signup({ email, password, firstName, lastName, dob }))
     navigate('/');

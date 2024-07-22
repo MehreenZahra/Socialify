@@ -117,10 +117,9 @@
 
 import { createSlice } from '@reduxjs/toolkit';
  
-// const storedUser = JSON.parse(localStorage.getItem(''))
 
 const initialState = {
-  user: null,
+  user: [],
   users: JSON.parse(localStorage.getItem('users')) || [],
   error: null,
 };
@@ -140,6 +139,7 @@ const userSlice = createSlice({
       state.users.push(newUser);
       localStorage.setItem('users', JSON.stringify(state.users));
       state.user = newUser;
+      localStorage.setItem('newUser', JSON.stringify(state.user))
       state.error = null;
     },
     login: (state, action) => {
@@ -151,8 +151,7 @@ const userSlice = createSlice({
       const users = JSON.parse(localStorage.getItem('users')) || [];
       console.log('Attempting login with email:', email);
       console.log('Users in localStorage:', users);
-      // const newUser = { email, password};
-      // users.push(newUser);
+      // matching email and password by using find function
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
         console.log('User found:' , user);
@@ -162,7 +161,28 @@ const userSlice = createSlice({
         console.log('Invalid email or password')
         state.user = null;
         state.error = 'Invalid email or password';
+        return;
       }
+
+      //matching password and email by for loop
+      // let userFound =null; 
+      // for (let i = 0; i < users.length; i++){
+      //   if(users[i].email === email && users[i].password === password){
+      //     userFound = users[i];
+      //     break;
+      //   }
+      // }
+      // if (userFound){
+      //   console.log('User found:', userFound);
+      //   state.user = userFound;
+      //   state.error= null;
+      //   // navigate('/home')
+      // } else {
+      //   console.log('Invalid email or password');
+      //   state.user = null;
+      //   state.error= 'Invalid email or password';
+      //   return;
+      // }
     },
     logout: (state) => {
       state.user = null;
