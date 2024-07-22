@@ -3,7 +3,7 @@ import { Card, CardContent, CardActions, Grid, IconButton, Button ,CardHeader , 
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addPost } from '../../features/posts/postsSlice';
 import {  unwrapResult } from '@reduxjs/toolkit';
 
@@ -95,10 +95,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   );
 function PostInput() {
   const [image, setImage] = useState('')
-  // const [title, setTitle] = useState('')
   const [content,setContent] = useState('')
   const dispatch = useDispatch();
-  const user = useSelector((state)=> state.user.user);
+  const user = JSON.parse(localStorage.getItem('currentUser'));
 
   const onPostSubmit = async (e) => {
     e.preventDefault();

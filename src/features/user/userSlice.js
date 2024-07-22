@@ -156,6 +156,7 @@ const userSlice = createSlice({
       if (user) {
         console.log('User found:' , user);
         state.user = user;
+        localStorage.setItem('currentUser', JSON.stringify(user));
         state.error = null;
       } else {
         console.log('Invalid email or password')

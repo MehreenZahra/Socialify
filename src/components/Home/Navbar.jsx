@@ -6,7 +6,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
-import {  useSelector } from 'react-redux';
+// import {  useSelector } from 'react-redux';
 // import { logout } from '../../features/user/userSlice';
 
 
@@ -28,7 +28,8 @@ const Icons = styled(Box)(({theme}) => ({
   }}));
  
 export default function Navbar() {
-  const user = useSelector((state) => state.user.user);
+  // const user = useSelector((state) => state.user.user);
+  const user = JSON.parse(localStorage.getItem('currentUser'));
   // const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
