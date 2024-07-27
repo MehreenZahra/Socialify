@@ -155,6 +155,7 @@ const userSlice = createSlice({
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
         console.log('User found:' , user);
+        user.userId = user.email;
         state.user = user;
         localStorage.setItem('currentUser', JSON.stringify(user));
         state.error = null;

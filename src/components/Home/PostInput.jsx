@@ -6,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../features/posts/postsSlice';
 import {  unwrapResult } from '@reduxjs/toolkit';
-
+import getUserInitials from '../../features/utils/getUserInitials';
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
       backgroundColor: '#44b700',
@@ -98,13 +98,18 @@ function PostInput() {
   const [content,setContent] = useState('')
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('currentUser'));
+  const avatarUrl = user.avatar; 
+  const initials = getUserInitials(user.firstName, user.lastName);
+
 
   const onPostSubmit = async (e) => {
     e.preventDefault();
     const payload = { 
       content,
-      title: `${user?.firstName || 'Anonymous'}${user?.lastName || ''}`.trim(),
-      avatar: user?.avatarUrl || 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg',
+      title:`${user?.firstName || ''}${user?.firstName && user?.lastName ? '   ' : ''}${user?.lastName || ''}`.trim(),
+
+      // title: `${user?.firstName || 'Anonymous'}${user?.lastName || ''}`.trim(),
+      avatar: avatarUrl || initials,
       date: new Date().toISOString(),
     };
     if (image) { 
@@ -115,6 +120,7 @@ function PostInput() {
     setContent('');
     // setTitle('');
     setImage('');
+    console.log(payload)
   };
   return (
     <div>
@@ -127,7 +133,7 @@ function PostInput() {
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             variant="dot"
           >
-         {<Avatar src={user?.avatarUrl || 'https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg'}/>}
+         {avatarUrl ? (<Avatar src={avatarUrl}/>) : (<Avatar>{initials}</Avatar>)}
         </StyledBadge>
             
           
@@ -213,6 +219,7 @@ function PostInput() {
               variant="contained"
               color="primary"
               onClick={onPostSubmit}
+            
             >
               Post
             </Button>

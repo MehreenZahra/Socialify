@@ -6,6 +6,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
+import getUserInitials from '../../features/utils/getUserInitials';
+
 // import {  useSelector } from 'react-redux';
 // import { logout } from '../../features/user/userSlice';
 
@@ -30,6 +32,9 @@ const Icons = styled(Box)(({theme}) => ({
 export default function Navbar() {
   // const user = useSelector((state) => state.user.user);
   const user = JSON.parse(localStorage.getItem('currentUser'));
+  const avatarUrl = user.avatar; 
+  const initials = getUserInitials(user.firstName, user.lastName);
+
   // const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
@@ -51,7 +56,8 @@ export default function Navbar() {
         <Badge badgeContent={6} color="error">
         <NotificationsIcon />
        </Badge>
-       <Avatar sx={{width:30, height:30}}alt="Cindy Baker" src="https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg" />
+      {avatarUrl ? (<Avatar src={avatarUrl}/>) : ( <Avatar sx={{width:30, height:30}} >{initials}</Avatar>)}
+      {/* src="https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg"  */}
        {user && <Typography variant='span'>{user.firstName}</Typography>}
        <KeyboardArrowDownIcon fontSize='medium' onClick={e => setOpen(true)}></KeyboardArrowDownIcon>
         </Icons>
