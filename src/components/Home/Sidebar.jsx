@@ -1,49 +1,47 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import {Box} from '@mui/system'
+import React from 'react';
+import {Box} from '@mui/system';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import WebIcon from '@mui/icons-material/Web';
 import GroupsIcon from '@mui/icons-material/Groups';
 import StorefrontIcon from '@mui/icons-material/Storefront';
-import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import InsightsIcon from '@mui/icons-material/Insights';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+
 function Sidebar() {
   return (
-    <Box sx={{pt: 9 , display:{xs: "none" , sm: "block"}}} flex={1} p={4}>
+    <Box sx={{pt: 9 , display:{xs: "none" , sm: "block"}}} flex={1} p={8}>
       <Box position="fixed">
-
-      
-      <List>
-          <ListItem disablePadding>
-            <ListItemButton component='a' href='/home'>
+      <List >
+          <ListItem disablePadding className='hover:bg-indigo-100'>
+            <ListItemButton component='a' >
               <ListItemIcon>
-                <HomeIcon/>
+                <SpaceDashboardIcon />
               </ListItemIcon>
-              <ListItemText primary="Homepage" />
+              <ListItemText primary="Dashboard" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding  className='hover:bg-indigo-100'>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
-                <WebIcon/>
+                <InsightsIcon/>
               </ListItemIcon>
-              <ListItemText primary="Pages" />
+              <ListItemText primary="Analytics" />
             </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
+          </ListItem >
+          <ListItem disablePadding  className='hover:bg-indigo-100'>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
-                <GroupsIcon />
+                <GroupsIcon  color="primary"/>
               </ListItemIcon>
-              <ListItemText primary="Groups" />
+              <ListItemText primary="Users" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding  className='hover:bg-indigo-100'>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
                 <StorefrontIcon/>
@@ -51,15 +49,15 @@ function Sidebar() {
               <ListItemText primary="Marketplace" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding  className='hover:bg-indigo-100'>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
-                <PersonIcon />
+                <TaskAltIcon/>
               </ListItemIcon>
-              <ListItemText primary="Friends" />
+              <ListItemText primary="Tasks" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding  className='hover:bg-indigo-100'>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
                 <SettingsIcon />

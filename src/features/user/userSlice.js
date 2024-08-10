@@ -116,12 +116,13 @@
 // export default userSlice.reducer;
 
 import { createSlice } from '@reduxjs/toolkit';
- 
-
+import { nanoid } from '@reduxjs/toolkit';
+import { Navigate } from 'react-router-dom';
 const initialState = {
   user: [],
   users: JSON.parse(localStorage.getItem('users')) || [],
   error: null,
+  isAdmin: false,
 };
 
 const userSlice = createSlice({
@@ -129,18 +130,26 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     signup: (state, action) => {
-      const { email, password, firstName, lastName, dob } = action.payload;
-      if (!email || !password || !firstName ) {
+      const { email, password, firstName, lastName, dob, gender } = action.payload;
+      if (!email || !password || !firstName || !lastName || !dob) {
         state.error = 'All fields are required';
         return
       };
-
-      const newUser = { email, password, firstName, lastName, dob };
+      if (firstName.toLowerCase() === 'admin' && state.users.find((user) => user.role === 'admin')) {
+        state.error = 'Admin role already taken';
+        return;
+      }
+      const userId = nanoid()
+      const role = firstName.toLowerCase() === 'admin' ? 'admin' : 'user';
+      const newUser = { email, password, firstName, lastName, dob, userId, gender,role };
+      console.log('New user:', newUser);
       state.users.push(newUser);
       localStorage.setItem('users', JSON.stringify(state.users));
       state.user = newUser;
+      localStorage.setItem('currentUser', JSON.stringify(newUser)); 
       localStorage.setItem('newUser', JSON.stringify(state.user))
       state.error = null;
+      return state;
     },
     login: (state, action) => {
       const { email, password } = action.payload;
@@ -155,40 +164,24 @@ const userSlice = createSlice({
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
         console.log('User found:' , user);
-        user.userId = user.email;
         state.user = user;
         localStorage.setItem('currentUser', JSON.stringify(user));
         state.error = null;
+        if (user.role === 'admin') {
+          state.isAdmin = true;
+        }
       } else {
-        console.log('Invalid email or password')
         state.user = null;
         state.error = 'Invalid email or password';
-        return;
-      }
-
-      //matching password and email by for loop
-      // let userFound =null; 
-      // for (let i = 0; i < users.length; i++){
-      //   if(users[i].email === email && users[i].password === password){
-      //     userFound = users[i];
-      //     break;
-      //   }
-      // }
-      // if (userFound){
-      //   console.log('User found:', userFound);
-      //   state.user = userFound;
-      //   state.error= null;
-      //   // navigate('/home')
-      // } else {
-      //   console.log('Invalid email or password');
-      //   state.user = null;
-      //   state.error= 'Invalid email or password';
-      //   return;
-      // }
+        }
+        return state;
+      
     },
     logout: (state) => {
+      console.log('Logout action handled');
       state.user = null;
       state.error= null;
+      // state.isAdmin = false;
     },
   },
 });

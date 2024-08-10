@@ -4,12 +4,11 @@ import React, { useState } from 'react'
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
 import getUserInitials from '../../features/utils/getUserInitials';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
-// import {  useSelector } from 'react-redux';
-// import { logout } from '../../features/user/userSlice';
+
 
 
 
@@ -20,8 +19,8 @@ const StyledToolbar = styled(Toolbar)({
 const Search = styled("div")(({theme}) => ({
   backgroundColor:"white",
   padding :"0 10px",
-  borderRadius: '20px',
-  width:'40%'
+  borderRadius: '10px',
+  width:'30%'
 }));
 const Icons = styled(Box)(({theme}) => ({
   display: 'none' ,alignItems : 'center', gap:'20px' ,
@@ -31,9 +30,9 @@ const Icons = styled(Box)(({theme}) => ({
  
 export default function Navbar() {
   // const user = useSelector((state) => state.user.user);
-  const user = JSON.parse(localStorage.getItem('currentUser'));
-  const avatarUrl = user.avatar; 
-  const initials = getUserInitials(user.firstName, user.lastName);
+  const profile = JSON.parse(localStorage.getItem('currentUser'));
+  const avatarUrl = profile.avatar; 
+  const initials = getUserInitials(profile.firstName, profile.lastName);
 
   // const dispatch = useDispatch();
   const [open, setOpen] = useState(false)
@@ -41,12 +40,25 @@ export default function Navbar() {
   const handleLogoutRedirect = () => {
     // dispatch(logout());
     navigate('/');
+    setOpen(false);
   };
+  const handleEditProfileClick = () => {
+    navigate('/home/edit-profile');
+    setOpen(false);
+  };
+  const handleSocialifyClick = () => {
+    navigate('/home');
+    setOpen(false);
+  };
+  const handleChangePasswordClick = () => {
+    navigate('/home/change-password');
+    setOpen(false);
+  }
   return (
     <AppBar position="sticky">
       
         <StyledToolbar>
-        <Typography variant='h6' sx={{display:{xs:"none", sm:"block"}}}>Socialify</Typography>
+        <Typography className="ml-16 font-semibold" variant='h6' sx={{display:{xs:"none", sm:"block"} ,"&:hover": {cursor: 'pointer'}}} onClick={handleSocialifyClick}>Socialify</Typography>
         <Diversity2Icon sx={{display:{xs:"block", sm:"none"}}}/>
         <Search> <InputBase placeholder='Search...'/></Search>
         <Icons  sx={{ "&:hover": {cursor: 'pointer' }}}>
@@ -56,10 +68,10 @@ export default function Navbar() {
         <Badge badgeContent={6} color="error">
         <NotificationsIcon />
        </Badge>
-      {avatarUrl ? (<Avatar src={avatarUrl}/>) : ( <Avatar sx={{width:30, height:30}} >{initials}</Avatar>)}
+      {avatarUrl ? (<Avatar src={avatarUrl}/>) : ( <Avatar sx={{width:40, height:40}} >{initials}</Avatar>)}
       {/* src="https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg"  */}
-       {user && <Typography variant='span'>{user.firstName}</Typography>}
-       <KeyboardArrowDownIcon fontSize='medium' onClick={e => setOpen(true)}></KeyboardArrowDownIcon>
+       {profile && <Typography className="font-semibold" variant='span'>{profile.firstName}</Typography>}
+       <ArrowDropDownIcon fontSize='medium' onClick={e => setOpen(true)}></ArrowDropDownIcon>
         </Icons>
       </StyledToolbar> 
       <Menu
@@ -78,8 +90,9 @@ export default function Navbar() {
           horizontal:"right",
         }}
       >
-        <MenuItem>Profile</MenuItem>
+        <MenuItem onClick={handleEditProfileClick}>Edit Profile</MenuItem>
         <MenuItem >My account</MenuItem>
+        <MenuItem onClick={handleChangePasswordClick}>Change Password</MenuItem>
         <MenuItem >
         <Link onClick={handleLogoutRedirect} >Logout </Link> 
         </MenuItem>

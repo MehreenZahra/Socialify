@@ -5,7 +5,7 @@ import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../features/posts/postsSlice';
-import {  unwrapResult } from '@reduxjs/toolkit';
+import {  nanoid, unwrapResult } from '@reduxjs/toolkit';
 import getUserInitials from '../../features/utils/getUserInitials';
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -111,6 +111,8 @@ function PostInput() {
       // title: `${user?.firstName || 'Anonymous'}${user?.lastName || ''}`.trim(),
       avatar: avatarUrl || initials,
       date: new Date().toISOString(),
+      userId: user.userId,
+      postId: nanoid(),
     };
     if (image) { 
       payload.image = image;
@@ -120,7 +122,7 @@ function PostInput() {
     setContent('');
     // setTitle('');
     setImage('');
-    console.log(payload)
+    console.log('post added:', payload)
   };
   return (
     <div>

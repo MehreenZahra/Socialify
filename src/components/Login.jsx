@@ -18,8 +18,10 @@ function Login() {
       } 
       const users = JSON.parse(localStorage.getItem('users')) || [];
       const userFound = users.find(user => user.email === email);
-     
-      if (userFound) {
+      if (email === 'admin@gmail.com' && password === 'admin00') {
+        dispatch(login({ email, password }));
+        navigate('/admin');
+      } else if (userFound) {
         if (userFound.password === password && userFound.email === email) {
           dispatch(login({ email, password }));
           navigate('/home');

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from '@reduxjs/toolkit';
 import { sub } from 'date-fns';
 import getUserInitials from '../utils/getUserInitials';
+// import { generateUniqueId } from '../utils/generateUniqueId';
 
 const initialState = [
     { id: nanoid(),
@@ -102,8 +103,10 @@ const postsSlice = createSlice({
         addPost(state, action) {
             const postId = nanoid();
             const user = JSON.parse(localStorage.getItem('currentUser'));
-            const post = { ...action.payload, id: postId,userId: user.userId, postId, title: action.payload.title, avatar: action.payload.avatar || getUserInitials(user.firstName, user.lastName) };
-            post.userId = user.email; 
+            // const userId = generateUniqueId(); 
+            const post = { ...action.payload, id: postId,userId : user.userId ,postId, title: action.payload.title, avatar: action.payload.avatar || getUserInitials(user.firstName, user.lastName) };
+            console.log('Current user:', user); 
+            // const userId = user.userId || generateUniqueId(); 
             if (!post.avatar) {
               post.avatar = getUserInitials(action.payload.title); // only update avatar if it's not provided
             }
@@ -114,7 +117,7 @@ const postsSlice = createSlice({
             // const initials = getUserInitials(user.firstName);
             return {
               payload: {
-                id,
+                id: user.userId,
                 date: new Date().toISOString(),
                 avatar: avatar,
                 title,
@@ -123,11 +126,40 @@ const postsSlice = createSlice({
               
               },
     }},
-        deletePost (state, action){
-          const postId = action.payload;
-          return state.filter((post) => post.id !== postId);
+        // deletePost (state, action){
+        //   const postId = action.payload;
+        //   return state.filter((post) => post.id !== postId);
+        // },
+        // deletePost(state, action) {
+          // const postId = action.payload.postId;
+          // const userId = action.payload.userId;
+          // const postIndex = state.posts.findIndex((post) => post.postId === action.payload.postId);
+          // if (postIndex !== -1 && state.posts[postIndex].userId === action.payload.userId) {
+          //   state.posts.splice(postIndex, 1);
+          //   return true;
+          // }
+          // return false;
+          // deletePost: (state, action) => {
+            // deletePost (state, action){
+            //   const postId = action.payload;
+            //   return state.filter((post) => post.id !== postId);
+            // },
+            // deletePost(state, action) {
+            
+            
+            //   state.posts = state.posts.find((post) => post.postId !== action.payload);
+            // }
+            deletePost(state, action) {
+              console.log('Delete post reducer called, postId:', action);
+              const postId = action.payload;
+              const userId = JSON.parse(localStorage.getItem('currentUser')).userId;
+              state = state.filter((post) => post && post.id !== postId || post.userId !== userId);
+              return state;
+            }
+            
         },
-}})
+      
+})
 
 export const {addPost, deletePost} = postsSlice.actions
 export default postsSlice.reducer

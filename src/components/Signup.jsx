@@ -6,6 +6,7 @@ import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../features/user/userSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 function Signup() { 
   const [email, setEmail] = useState('');
@@ -28,8 +29,14 @@ function Signup() {
       setError ('Password donot match')
       return;
     }
-    dispatch(signup({ email, password, firstName, lastName, dob }))
-    navigate('/');
+    const userId = nanoid();
+    const role = firstName.toLowerCase() === 'admin' ? 'admin' : 'user'; 
+    dispatch(signup({ email, password, firstName, lastName, dob,userId ,gender,role}))
+    if (role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/home');
+    }
   };
   const handleLoginRedirect = () => {
         navigate("/");
@@ -100,7 +107,10 @@ function Signup() {
             className='w-1/2 m-1'
             label="Date of Birth"
             // value={dobDateObject} 
-            onChange={setDob}
+            onChange={(newValue) => {
+              const dobDateObject = newValue;
+              const formattedDob = dobDateObject.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+              setDob(formattedDob);}}
             margin="none"
           />
         </LocalizationProvider>
