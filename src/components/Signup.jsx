@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography,  MenuItem, FormControl, InputLabel, Select , CssBaseline, Grid, Stack, Avatar, Link, Box} from '@mui/material';
+import { TextField, Button, Container, Typography,  MenuItem, FormControl, InputLabel, Select , CssBaseline, Grid, Stack, Avatar, Link, Box, IconButton} from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../features/user/userSlice';
 import { nanoid } from '@reduxjs/toolkit';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function Signup() { 
   const [email, setEmail] = useState('');
@@ -16,6 +17,8 @@ function Signup() {
   const [lastName, setLastName] = useState('');
   const [gender , setGender] = useState('');
   const [dob, setDob] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError]= useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,6 +30,12 @@ function Signup() {
       return;
     } else if (password !== confirmPassword){
       setError ('Password donot match')
+      return;
+    } 
+    const existingUser = JSON.parse(localStorage.getItem('users')).find((user) => user.email === email);
+
+    if (existingUser) {
+      setError('Email already registered');
       return;
     }
     const userId = nanoid();
@@ -85,20 +94,46 @@ function Signup() {
          Required
         className='w-1/2 m-1'
           label="Password"
-          type="password"
+          // type="password"
+          type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           margin="none"
+         
+          InputProps={{
+            endAdornment: (
+              <IconButton 
+              sx={{
+                color: showPassword ? 'blue' : 'gray',
+              }}
+              onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <VisibilityOff sx={{fontSize:16}}/> : <Visibility sx={{fontSize:16}}/>}
+              </IconButton>
+            ),
+          }}
         />
         <TextField
          Required
          className='w-1/2 m-1'
           label="Confirm Password"
-          type="password"
+          // type="password"
+          type={showConfirmPassword ? 'text' : 'password'}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           margin="none"
           sx={{mb: 3 }}
+          InputProps={{
+            endAdornment: (
+              <IconButton 
+              sx={{
+                color: showConfirmPassword ? 'blue' : 'gray',
+                fontSize: '10px',
+              }} 
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? <VisibilityOff sx={{fontSize:16}} /> : <Visibility sx={{fontSize:16}} />}
+              </IconButton>
+            ),
+          }}
         />
         </Stack>
         <Stack spacing={0.5} direction="row" sx={{marginBottom: 1 , marginTop:3}}>
