@@ -19,23 +19,6 @@ const ChangePassword = () => {
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
-
-
-//   const handleChangePassword = (event) => {
-//     event.preventDefault();
-//     if (newPassword !== confirmNewPassword) {
-//       setError('Passwords do not match');
-//       return;
-//     }
-//     dispatch(updatePassword({ currentPassword, newPassword }));
-//     // localStorage.setItem('currentUser', JSON.stringify(userData));
-//     // const users = JSON.parse(localStorage.getItem('users'));
-//     // const updatedUser = users.find((user) => user.userId === userData.userId);
-//     // if (updatedUser) {
-//     // updatedUser.password = userData.password;
-//     // localStorage.setItem('users', JSON.stringify(users));
-//     setError(null);
-//   };
 const handleUpdatePassword = (e) => {
     e.preventDefault();
     if (!currentPassword || !newPassword || !confirmNewPassword) {
@@ -56,6 +39,9 @@ const handleUpdatePassword = (e) => {
     }
     setError(null);
     setOpen(true);
+    setCurrentPassword('');
+    setNewPassword('');
+    setConfirmNewPassword('');
   };
   const handleClose = () => {
     setOpen(false);
