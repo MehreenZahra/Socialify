@@ -62,12 +62,12 @@ export default function Navbar() {
         <Diversity2Icon sx={{display:{xs:"block", sm:"none"}}}/>
         <Search> <InputBase placeholder='Search...'/></Search>
         <Icons  sx={{ "&:hover": {cursor: 'pointer' }}}>
-        <Badge badgeContent={4} color="error">
+        {/* <Badge badgeContent={4} color="error">
         <MailIcon />
         </Badge>
         <Badge badgeContent={6} color="error">
         <NotificationsIcon />
-       </Badge>
+       </Badge> */}
       {avatarUrl ? (<Avatar src={avatarUrl}/>) : ( <Avatar sx={{width:40, height:40}} >{initials}</Avatar>)}
       {/* src="https://images.pexels.com/photos/8575841/pexels-photo-8575841.jpeg"  */}
        {profile && <Typography className="font-semibold" variant='span'>{profile.firstName}</Typography>}
