@@ -1,14 +1,11 @@
 import { Box, styled } from '@mui/system'
 import { AppBar, InputBase, Menu, MenuItem,Typography,  Toolbar,Badge,Avatar } from '@mui/material'
 import { React, useState} from 'react'
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
 import Diversity2Icon from '@mui/icons-material/Diversity2';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { logout } from '../../features/user/userSlice';
 
 const StyledToolbar = styled(Toolbar)({
     display:'flex',

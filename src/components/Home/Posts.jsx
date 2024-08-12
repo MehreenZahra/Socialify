@@ -1,5 +1,5 @@
 // import React from 'react'
-import { Avatar,  Card, CardHeader, IconButton, CardMedia, CardContent, Typography, CardActions , Checkbox} from '@mui/material'
+import { Avatar,  Card, CardHeader, IconButton, CardMedia, CardContent, Typography, CardActions , Checkbox, Modal} from '@mui/material'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import React from 'react'
@@ -21,6 +21,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Backdrop from '@mui/material/Backdrop';
 import { useState } from 'react';
+import { Box } from '@mui/system';
 function Posts({ page, postsPerPage }) {
     const dispatch = useDispatch();
     const posts = useSelector(state => state.posts);
@@ -60,30 +61,8 @@ console.log('id:', post?.id)
 
 
     
-  //   const handleDelete = ({postId}) => {   
-  // // const post = posts.find((post) => post.id === postId);
-  // // const user = JSON.parse(localStorage.getItem('currentUser'));
-  // // if (post.userId === user.userId) {
-     
-  //   console.log('Deleting post:', { postId, userId: user.userId });
-  // console.log('postId:', postId);
-  //   dispatch(deletePost({ postId }));
-  // //   console.log('Post deleted');
-  // //   setOpenConfirmDialog(false);
-  // // } else {
-  // //   console.log({postId, userId: user.userId})
-  //   // alert("You can only delete your own posts!");
-  //   // console.log(post.userId, user.email, post.userId === user.email);
-  // // }
-  //   };
-  // const handleDelete = (postId) => {
-  //   console.log('Deleting post:', { postId, userId: user.userId });
-  //   dispatch(deletePost({ postId }));
-  // };
+  
   function renderMenuItem() {
-    console.log('User ID:', user.userId);
-  // console.log('Post ID:', post.userId);
-  // console.log('User ID === Post ID:', user.userId === post.userId);
   if (user?.userId && post?.userId) {
     if ( user.userId === post.userId) {
       console.log('Rendering Delete Post option');
@@ -122,10 +101,7 @@ console.log('id:', post?.id)
       dispatch(deletePost(post.id));
       setOpenConfirmDialog(false);
       setOpenSnackbar(true);
-    // } else {
-    //   alert("You can only delete your own posts!");
-    
-      };  
+    };  
     
   
 
@@ -145,18 +121,13 @@ console.log('id:', post?.id)
         titleTypographyProps={{
           fontSize: 16,
           variant : 'h6',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          marginLeft:'6px',
         }}
         title={post.title}
-        // title={`${user?.firstName || ''}${user?.firstName && user?.lastName ? ' ' : ''}${user?.lastName || ''}`.trim()}
-        // subheader="June 27, 2024  04:30 p.m"
-        // subheader= 
         subheaderTypographyProps={{
           fontSize: 11,
-          // display: 'flex',
-          // justifyContent: 'space-between',
-          paddingRight: '40px', 
-          // // marginTop: '4px',
+          
         }}
         subheader={<TimeAgo timestamp={post.date} />}
         sx={{
@@ -175,88 +146,58 @@ console.log('id:', post?.id)
           Save Post 
           </MenuItem>
           {renderMenuItem()}
-          {/* {(user.userId === post.userId) ? (
-          <MenuItem onClick={handleDeletePostClick}>
-            <DeleteIcon sx={{ marginRight: 1 }} />
-            Delete Post
-          </MenuItem>
-            ) : (
-              <MenuItem>
-                <CommentIcon sx={{ marginRight: 1 }} />
-                Comment
-              </MenuItem>
-            )} */}
           <MenuItem>
           <ReportIcon sx={{ marginRight: 1 }}/>
           Report Post 
           </MenuItem>
         </Menu>
         {openConfirmDialog && (
-        <Dialog
+        <Modal
           open={openConfirmDialog}
           onClose={handleCancelDelete}
-          // BackdropComponent={Backdrop}
-          // BackdropProps={{
-          //   style: {
-          //     backgroundColor: 'transparent',
-          //   },
-          // }}
-          PaperProps={{
-            style: {
-              backgroundColor: '#fff',
-              color: '#fff',
-              padding: '20px',
-              borderRadius: '10px',
-              maxWidth: '400px',
-              width: '100%',
-            },
-          }}
+            aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropProps={{ style: { backgroundColor: 'transparent',  backdropFilter: 'blur(40px)', } }}
+      
         >
-          <DialogTitle   style={{
-      color: '#000',
-      fontWeight: 'bold',
-      borderBottom: '1px solid #444',
-      paddingBottom: '10px',
-    }}>Do you want to Delete Post?</DialogTitle>
-          <DialogContent
-           style={{
-            padding: '20px',
-          }}>
-            <DialogContentText   style={{
-        color: '#fff',
-      }}>
-              Are you sure you want to delete this post?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions  style={{
-      padding: '10px',
-      justifyContent: 'space-between',
-    }}>    
-    
-            <Button onClick={()=> handleDelete()}
-             style={{
-              backgroundColor: '#ff0000',
-              color: '#fff',
-              padding: '10px 20px',
-              borderRadius: '5px',
-              border: 'none',
-              cursor: 'pointer',
-            }}>
-              Delete
-            </Button>
-            <Button onClick={handleCancelDelete}
-            style={{
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgColor: '#fff',
+            border: '2px solid #000',
+            boxShadow: 15,
+            p: 4, 
+          }}>  
+           <Typography id="delete-post-modal" variant="h6" component="h2">
+             Delete Post
+           </Typography>
+           <Typography id="delete-post-modal-description" sx={{ mt: 2 }}>
+             Are you sure you want to delete this post?
+           </Typography>
+           <Button onClick={handleCancelDelete}  sx={{
               backgroundColor: '#4CAF50',
               color: '#fff',
               padding: '10px 20px',
               borderRadius: '5px',
               border: 'none',
               cursor: 'pointer',
-            }}>
-              Cancel
-            </Button>
-          </DialogActions>
-        </Dialog>
+              mt:2,
+              mr: 6,
+            }}>Cancel</Button>
+           <Button onClick={handleDelete}  sx={{  
+              backgroundColor:'#ff0000',
+              color: '#fff',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              border: 'none',
+              cursor: 'pointer',
+              mt: 2 }}>Delete</Button>
+        </Box>
+        </Modal>
       )}
       {post.image ? ( <CardMedia
         component="img"

@@ -1,9 +1,6 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, CardMedia, Stack, Avatar, CardActions, Button } from '@mui/material';
+import { Grid, Card, CardContent, Typography, Stack,CardActions, Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-import getUserInitials from '../../features/utils/getUserInitials';
-import Navbar from '../Home/Navbar';
-import AdminNavbar from './AdminNavbar';
 function AdminDashboard() {
   const users = JSON.parse(localStorage.getItem('users')) || [];
   const posts = useSelector(state => state.posts);
