@@ -9,10 +9,10 @@ function AdminLayout() {
   return (
     <Box>
     <AdminNavbar/>
-  <Stack direction='row' spacing={20} justifyContent="space-between" >
-    <Sidebar/>
-    <Stack direction='column' spacing={4}>
-    <Card sx={{
+  {/* <Stack direction='row' spacing={1} justifyContent="space-around" > */}
+    {/* <Sidebar/> */}
+    {/* <Stack direction='column' spacing={4}> */}
+    {/* <Card sx={{
         boxShadow: 2,
         borderRadius: 2,
         marginTop: 40,
@@ -21,18 +21,18 @@ function AdminLayout() {
         maxWidth: '1000px',
         margin: 'auto',
         backgroundColor: '#fff'
-      }}>
-      <Typography variant="h4" component="div" sx={{ mb: 2 }}>
+      }}> */}
+      {/* <Typography variant="h4" component="div" sx={{ mb: 2 }}>
       "Hello, Admin!"
-      </Typography>
-      </Card>
+      </Typography> */}
+      {/* </Card> */}
     {/* <Box sx={{ display: 'flex', justifyContent: 'center', width: '60%' }}> */}
      <AdminDashboard />
     
-   </Stack>
+   {/* </Stack> */}
    {/* <Rightbar/> */}
     {/* </Box> */}
-   </Stack>
+   {/* </Stack> */}
  </Box>
   )
 }

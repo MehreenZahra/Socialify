@@ -24,6 +24,10 @@ function Login() {
         dispatch(login({ email, password }));
         navigate('/admin');
       } else if (userFound) {
+        if (userFound.isBlocked) {
+          setError('Your account has been blocked');
+          return;
+        }
         if (userFound.password === password && userFound.email === email) {
           dispatch(login({ email, password }));
           navigate('/home');

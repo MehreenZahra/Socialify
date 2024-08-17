@@ -1,4 +1,3 @@
-//
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from '@reduxjs/toolkit';
 const initialState = {
@@ -28,7 +27,7 @@ const userSlice = createSlice({
       }
       const userId = nanoid()
       const role = firstName.toLowerCase() === 'admin' ? 'admin' : 'user';
-      const newUser = { email, password, firstName, lastName, dob, userId, gender,role };
+      const newUser = { email, password, firstName, lastName, dob, userId, gender,role , isBlocked: false};
       console.log('New user:', newUser);
       state.users.push(newUser);
       localStorage.setItem('users', JSON.stringify(state.users));
@@ -50,6 +49,11 @@ const userSlice = createSlice({
       // matching email and password by using find function
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
+        if (user.isBlocked) {
+          state.user = null;
+          state.error = 'Your account has been blocked';
+          return state;;
+        }
         console.log('User found:' , user);
         state.user = user;
         localStorage.setItem('currentUser', JSON.stringify(user));
