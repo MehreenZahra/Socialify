@@ -7,6 +7,9 @@ const AdminDashboard = () => {
   const users = useSelector((state) => state.admin.users);
   const {  filteredUsers, searchQuery, filterGender } = useSelector((state) => state.admin);
 const [buttonStates, setButtonStates] = useState({});
+const [allUsersSelected, setAllUsersSelected] = useState(false);
+const [selectedUsers, setSelectedUsers] = useState([]);
+
 
 
   const handleSearch = (e) => {
@@ -15,6 +18,27 @@ const [buttonStates, setButtonStates] = useState({});
 
   const handleFilter = (gender) => {
     dispatch(setFilterGender(gender));
+  };
+  const handleSelectAllUsers = () => {
+    setAllUsersSelected(!allUsersSelected);
+    if (allUsersSelected) {
+      setSelectedUsers([]);
+    } else {
+      setSelectedUsers(filteredUsers.map((user) => user.userId));
+    }
+  };
+  
+  const handleUserSelect = (userId) => {
+    if (selectedUsers.includes(userId)) {
+      setSelectedUsers(selectedUsers.filter((id) => id !== userId));
+    } else {
+      setSelectedUsers([...selectedUsers, userId]);
+    }
+    if (selectedUsers.length === filteredUsers.length) {
+      setAllUsersSelected(true);
+    } else {
+      setAllUsersSelected(false);
+    }
   };
   const handleBlockUnblock = (userId) => {
     const user = users.find((user) => user.userId === userId);
@@ -76,27 +100,41 @@ const [buttonStates, setButtonStates] = useState({});
             <table className="w-full table-auto  border-spacing-y-6">
               <thead>
                 <tr className="bg-gray-100">
+                <th className="border p-2 text-lg font-bold text-left">
+                      <input
+                        type="checkbox"
+                        checked={allUsersSelected}
+                        onChange={handleSelectAllUsers}
+                      />
+                    </th>
                   <th className="border p-2 text-lg font-bold text-left">ID</th>
                   <th className="border-b p-4 text-lg font-bold text-left">Name</th>
                   <th className="border-b p-4 text-lg font-bold text-left">Email</th>
                   <th className="border-b p-4 text-lg font-bold text-left">DOB</th>
-                  <th className="border-b p-4 text-lg font-bold text-left">Gender</th>
+                  <th className="border-b p-4 text-lg font-bold text-center">Gender</th>
                   <th className="border-b p-4 text-lg font-bold text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
                   <tr key={user.id}  className="bg-white hover:bg-gray-100 mb-4">
+                                <td className="border p-2">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.userId)}
+                        onChange={() => handleUserSelect(user.userId)}
+                      />
+                    </td>
                     <td className="border p-2">{user.userId}</td>
                     <td className="border p-2">{user.firstName} {user.lastName}</td>
                     <td className="border p-2">{user.email}</td>
                     <td className="border p-2">{new Date(user.dob).toLocaleDateString()}</td>
-                    <td className="border p-2">{user.gender}</td>
-                    <td className="border p-1 justify-center">
+                    <td className="border p-2 text-center">{user.gender}</td>
+                    <td className="border p-1 text-center">
                       <button
                         key={user.userId}
                       onClick={() => handleBlockUnblock(user.userId)}
-                      className={`w-24 p-2 rounded-full ${buttonStates[user.userId]?.color || 'bg-green-500'}`}
+                      className={`cursor-pointer w-24 p-2 rounded-full ${buttonStates[user.userId]?.color || 'bg-green-500'}`}
                     >
                        {buttonStates[user.userId]?.text || 'Block'}
                     </button>
