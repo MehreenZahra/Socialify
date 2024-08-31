@@ -4,7 +4,7 @@ import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAuto
 import { PhotoCamera, VideoCall, AttachFile } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { useDispatch } from 'react-redux';
-import { addPost } from '../../features/posts/postsSlice';
+import { addPost } from '../../store/postsSlice';
 import {  nanoid, unwrapResult } from '@reduxjs/toolkit';
 import getUserInitials from '../../features/utils/getUserInitials';
 const StyledBadge = styled(Badge)(({ theme }) => ({

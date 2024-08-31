@@ -7,8 +7,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector, useDispatch } from 'react-redux';
-import { deletePost } from '../../features/posts/postsSlice';
-import { TimeAgo } from '../../features/posts/TimeAgo';
+import { deletePost } from '../../store/postsSlice';
+import { TimeAgo } from '../../store/TimeAgo';
 import {
   Menu,
   MenuItem,

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Link, IconButton, Grid } from '@mui/material';
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {login} from '../features/user/userSlice'
+import {login} from '../store/userSlice'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 function Login() {
     const [email, setEmail] = useState('');
@@ -77,9 +77,9 @@ function Login() {
               <IconButton
                 sx={{
                   color: showPassword ? 'blue' : 'gray',
-                  position: 'absolute', // Add this
-                  right: '10px', // Add this
-                  top: '50%', // Add this
+                  position: 'absolute', 
+                  right: '10px', 
+                  top: '50%', 
                   transform: 'translateY(-50%)', 
                 }}
                 onClick={() => setShowPassword(!showPassword)}

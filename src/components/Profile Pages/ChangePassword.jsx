@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updatePassword } from '../../features/user/profileSlice';
+import { updatePassword } from '../../store/profileSlice';
 import {
   Box,
   Button,

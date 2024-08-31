@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateProfile } from '../../features/user/profileSlice';
+import { updateProfile } from '../../store/profileSlice';
 import {
   Box,
   Button,

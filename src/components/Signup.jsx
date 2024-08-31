@@ -5,7 +5,7 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../features/user/userSlice';
+import { signup } from '../store/userSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 

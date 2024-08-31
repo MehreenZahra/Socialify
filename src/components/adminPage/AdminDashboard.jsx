@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSearchQuery, setFilterGender, blockUser, unblockUser } from '../../features/admin/adminSlice'; 
+import { setSearchQuery, setFilterGender, blockUser, unblockUser } from '../../store/adminSlice'; 
 
 const AdminDashboard = () => {
   const dispatch = useDispatch();

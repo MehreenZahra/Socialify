@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from '@reduxjs/toolkit';
 import { sub } from 'date-fns';
-import getUserInitials from '../utils/getUserInitials';
+import getUserInitials from '../features/utils/getUserInitials';
 // import { generateUniqueId } from '../utils/generateUniqueId';
 
 const initialState = [
