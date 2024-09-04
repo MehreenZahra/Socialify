@@ -1,0 +1,94 @@
+.customInput {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.customInput input,
+.customInput select,
+.customInput textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c2b3b3;
+  border-radius: 4px;
+  font-size: 14px;
+  /* transition: border-color 0.2s, box-shadow 0.2s; */
+  background-color: transparent;
+  box-sizing: border-box;
+  
+}
+
+.customInput label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: rgba(73, 69, 69, 0.6);
+  pointer-events: none;
+  transition: 0.2s ease all;
+  background-color: white;
+  padding: 0 5px;
+}
+
+.focused input,
+.focused select,
+.focused textarea,
+.customInput input:focus,
+.customInput select:focus,
+.customInput textarea:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.focused label,
+.customInput input:not(:placeholder-shown) + label,
+.customInput select:not(:placeholder-shown) + label,
+.customInput textarea:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  color: #1976d2;
+  transform: translateY(-50%) scale(0.75);
+}
+
+.multiline textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.multiline label {
+  top: 10px;
+  transform: none;
+}
+
+.multiline.focused label,
+.multiline textarea:not(:placeholder-shown) + label {
+  top: -8px;
+  transform: scale(0.75);
+}
+
+.selectedCount {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.customInput select[multiple] {
+  height: auto;
+  min-height: 100px;
+}
+
+.customInput:hover input,
+.customInput:hover select,
+.customInput:hover textarea {
+  border-color: rgba(88, 112, 245, 0.87);
+}
+
+.customInput input::placeholder,
+.customInput select::placeholder,
+.customInput textarea::placeholder {
+  color: transparent;
+}
