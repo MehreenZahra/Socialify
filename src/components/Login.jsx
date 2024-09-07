@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Link, IconButton, Grid } from '@mui/material';
+import { Button,  Typography, Link, Grid } from '@mui/material';
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {login} from '../store/userSlice'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CustomInput from './textInputs/CustomInput';
-// import styles from './textInputs/CustomInput.module.css';
-// import InputField from './textInputs/InputField';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -57,15 +55,20 @@ function Login() {
               type="email"
               label="Email"
               placeholder='john@gmail.com'
-              // value={formData.email}
-              // onChange={handleInputChange('email')}
+              value={email}
+              onChange={(e) => setEmail(e)}
+            
             />
               <CustomInput
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               label="Password"
-            
-              // value={formData.email}
-              // onChange={handleInputChange('email')}
+              value={password}
+              onChange={(e) => setPassword(e)}
+              endAdornment={
+                <div onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer' }}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </div>
+              }
             />
         {/* <TextField
           className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 justify-center'
@@ -76,35 +79,6 @@ function Login() {
           margin="normal"
           size='small'
           required
-        /> */}
-        </Grid>
-        <Grid item xs={12}>
-        {/* <TextField
-        className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 justify-center'
-          placeholder="Password"
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          margin="normal"
-          size='small'
-          required
-          sx={{ maxWidth: '100%' }}
-          InputProps={{
-            endAdornment: (
-              <IconButton
-                sx={{
-                  color: showPassword ? 'blue' : 'gray',
-                  position: 'absolute', 
-                  right: '10px', 
-                  top: '50%', 
-                  transform: 'translateY(-50%)', 
-                }}
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <VisibilityOff sx={{fontSize:16}} /> : <Visibility sx={{ fontSize: 16}} />}
-              </IconButton>
-            ),
-          }}
         /> */}
         </Grid>
         {error && <p style = {{color : 'red'}}>{error}</p>}
