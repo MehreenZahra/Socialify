@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import CustomInput from '../textInputs/CustomInput';
+import CustomSelect from '../textInputs/CustomSelect';
 import './Signup2.css';
 
 interface FormData {
@@ -22,109 +24,92 @@ const Signup2: React.FC = () => {
     interests: [],
     comments: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (field: keyof FormData) => (value: string | string[]) => {
-    setFormData(prev => {
-      if (field === 'interests') {
-        const newInterests = Array.isArray(value) ? value : [value];
-        return { ...prev, [field]: newInterests };
-      }
-      return { ...prev, [field]: value };
-    });
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleInterestsChange = (value: string | string[]) => {
-    setFormData(prev => {
-      const updatedInterests = Array.isArray(value)
-        ? value
-        : prev.interests.includes(value)
-          ? prev.interests.filter(interest => interest !== value)
-          : [...prev.interests, value];
-      return { ...prev, interests: updatedInterests };
-    });
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
+
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' }
+  ];
+
+  const interestOptions = [
+    { value: 'sports', label: 'Sports' },
+    { value: 'music', label: 'Music' },
+    { value: 'movies', label: 'Movies' },
+    { value: 'books', label: 'Books' },
+    { value: 'travel', label: 'Travel' },
+    { value: 'gardening', label: 'Gardening' },
+    { value: 'coding', label: 'Coding' }
+  ];
 
   return (
-    <div className="rightbar">
-      <div className="login-container">
+    <div className="signup-container">
+      <div className="signup-form-container">
         <h2>Signup</h2>
-        <form className="login-form">
-          <div className="form-group">
-            <CustomInput
-              type="text"
-              label="Name"
-              placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleInputChange('name')}
-            />
-          </div>
-          <div className="form-group">
-            <CustomInput
-              type="email"
-              label="Email"
-              placeholder='john@gmail.com'
-              value={formData.email}
-              onChange={handleInputChange('email')}
-            />
-          </div>
-          <div className="form-group">
-            <CustomInput
-              placeholder='*********'
-              type="password"
-              label="Password"
-              value={formData.password}
-              onChange={handleInputChange('password')}
-            />
-          </div>
-          <div className="form-group">
-            <CustomInput
-              type="date"
-              label="Date of Birth"
-              value={formData.dob}
-              onChange={handleInputChange('dob')}
-            />
-          </div>
-          <div className="form-group">
-            <CustomInput
-              type="select"
-              label="Gender"
-              value={formData.gender}
-              onChange={handleInputChange('gender')}
-              options={['Male', 'Female', 'Other']}
-            />
-          </div>
-          <div className="form-group">
-            <CustomInput
-              type="select"
-              label=""
-              value={formData.interests}
-              onChange={(value) => handleInputChange('interests')(value)}
-              options={['Sports', 'Music', 'Movies', 'Books', 'Travel', 'Gardening', 'Coding']}
-              multiple={true}
-            />
-          </div>
-          {/* <div className="selected-interests">
-            <p>Selected Interests:</p>
-            <ul>
-              {formData.interests.map(interest => (
-                <li key={interest}>{interest}</li>
-              ))}
-            </ul>
-          </div> */}
-          <div className="form-group">
-            <CustomInput
-              type="textarea"
-              label="Comments"
-              value={formData.comments}
-              onChange={handleInputChange('comments')}
-              multiline
-              rows={4}
-            />
-          </div>
-          <button className="login-button">SIGNUP</button>
+        <form className="signup-form">
+          <CustomInput
+            type="text"
+            label="Name"
+            placeholder="Enter your name"
+            value={formData.name}
+            onChange={handleInputChange('name')}
+          />
+          <CustomInput
+            type="email"
+            label="Email"
+            placeholder='john@gmail.com'
+            value={formData.email}
+            onChange={handleInputChange('email')}
+          />
+          <CustomInput
+            type={showPassword ? "text" : "password"}
+            label="Password"
+            placeholder='*********'
+            value={formData.password}
+            onChange={handleInputChange('password')}
+            icon={showPassword ? "👁️" : "👁️‍🗨️"}
+            onIconClick={togglePasswordVisibility}
+          />
+          <CustomInput
+            type="date"
+            label="Date of Birth"
+            value={formData.dob}
+            onChange={handleInputChange('dob')}
+            placeholder="dd/mm/yyyy"
+          />
+          <CustomSelect
+            label="Gender"
+            options={genderOptions}
+            value={formData.gender}
+            onChange={handleInputChange('gender')}
+          />
+          <CustomSelect
+            label="Interests"
+            options={interestOptions}
+            value={formData.interests}
+            onChange={handleInputChange('interests')}
+            multiple={true}
+            fieldName="interests"
+          />
+          <CustomInput
+            type="textarea"
+            label="Comments"
+            value={formData.comments}
+            onChange={handleInputChange('comments')}
+            rows={4}
+          />
+          <button className="signup-button" type="submit">SIGNUP</button>
         </form>
-        <div className="forgot-password">
-          <a href="#">Already have Account?</a>
+        <div className="login-link">
+          <Link to="/">Already have an Account?</Link>
         </div>
       </div>
     </div>

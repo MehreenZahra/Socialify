@@ -4,6 +4,9 @@ import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {login} from '../store/userSlice'
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CustomInput from './textInputs/CustomInput';
+// import styles from './textInputs/CustomInput.module.css';
+// import InputField from './textInputs/InputField';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -50,7 +53,21 @@ function Login() {
     <form  className='bg-white rounded-lg shadow-lg p-6'>
       <Typography variant="h2" align='center' gutterBottom style={{ fontSize: '40px', fontWeight: 'bold', color: 'blue' }} className='mt-5 text-center text-2xl font-bold leading-9 tracking-tight'>Login</Typography>
       <Grid item xs={12}>
-        <TextField
+      <CustomInput
+              type="email"
+              label="Email"
+              placeholder='john@gmail.com'
+              // value={formData.email}
+              // onChange={handleInputChange('email')}
+            />
+              <CustomInput
+              type="password"
+              label="Password"
+            
+              // value={formData.email}
+              // onChange={handleInputChange('email')}
+            />
+        {/* <TextField
           className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 justify-center'
           placeholder="Email"
           type="email"
@@ -59,10 +76,10 @@ function Login() {
           margin="normal"
           size='small'
           required
-        />
+        /> */}
         </Grid>
         <Grid item xs={12}>
-        <TextField
+        {/* <TextField
         className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 justify-center'
           placeholder="Password"
           type={showPassword ? 'text' : 'password'}
@@ -88,7 +105,7 @@ function Login() {
               </IconButton>
             ),
           }}
-        />
+        /> */}
         </Grid>
         {error && <p style = {{color : 'red'}}>{error}</p>}
         <Button className='flex w-9/12 rounded-md bg-indigo-600 ml-8 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-300' type="submit" variant="contained" onClick={handleSubmit}>

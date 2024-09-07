@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import styles from './CustomInput.module.css';
 
 interface CustomInputProps {
-  type: 'text' | 'email' | 'password' | 'date' | 'select' | 'textarea';
-  label: string;
-  value: string | string[];
-  onChange: (value: string | string[]) => void;
-  options?: string[];
-  multiple?: boolean;
-  multiline?: boolean;
-  rows?: number;
+  type: string;
+  label?: string;
+  value: string;
+  onChange: (value: string) => void;
   placeholder?: string;
-  showPasswordToggle?: boolean;
+  icon?: string;
+  onIconClick?: () => void;
+  rows?: number;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -19,85 +17,42 @@ const CustomInput: React.FC<CustomInputProps> = ({
   label,
   value,
   onChange,
-  options,
-  multiple,
-  multiline,
-  rows = 3,
-  placeholder
+  placeholder,
+  icon,
+  onIconClick,
+  rows
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    if (type === 'select' && multiple) {
-      const selectedOptions = Array.from((e.target as HTMLSelectElement).selectedOptions, option => option.value);
-      onChange(selectedOptions);
-    } else {
-      onChange(e.target.value);
-    }
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
+
+  const inputProps = {
+    type,
+    value,
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => onChange(e.target.value),
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    placeholder: ' ', // Empty space to ensure consistent height
   };
 
-  const renderInput = () => {
-    switch (type) {
-      case 'select':
-        return (
-          <select
-            value={multiple ? (value as string[]) : (value as string)}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            multiple={multiple}
-          >
-            {!multiple && <option value="">{placeholder || `Select ${label}`}</option>}
-            {options?.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        );
-      case 'date':
-        return (
-          <input
-            type="date"
-            value={value as string}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder={placeholder}
-          />
-        );
-      case 'textarea':
-        return (
-          <textarea
-            value={value as string}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            rows={rows}
-            placeholder={placeholder}
-          />
-        );
-      default:
-        return (
-          <input
-            type={type}
-            value={value as string}
-            onChange={handleChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            placeholder={placeholder}
-          />
-        );
-    }
-  };
+  const isTextarea = type === 'textarea';
 
   return (
-    <div className={`${styles.customInput} ${isFocused ? styles.focused : ''} ${multiline ? styles.multiline : ''}`}>
-      <label>{label}</label>
-      {renderInput()}
-      {type === 'select' && multiple && Array.isArray(value) && (
-        <div className={styles.selectedCount}>{`${value.length} selected`}</div>
-      )}
+    <div className={`${styles.inputContainer} ${isTextarea ? styles.textareaContainer : ''} ${isFocused || value ? styles.focused : ''}`}>
+      {label && <label className={styles.label}>{label}</label>}
+      <div className={styles.inputWrapper}>
+        {isTextarea ? (
+          <textarea {...inputProps} rows={rows} />
+        ) : (
+          <input {...inputProps} />
+        )}
+        {icon && (
+          <span className={styles.icon} onClick={onIconClick}>
+            {icon}
+          </span>
+        )}
+      </div>
     </div>
   );
 };
