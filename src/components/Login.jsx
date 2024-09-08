@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import { Button,  Typography, Link, Grid } from '@mui/material';
 import { useDispatch} from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {login} from '../store/userSlice'
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {login} from '../store/userSlice';
 import CustomInput from './textInputs/CustomInput';
+
+// Load environment variables
+// dotenv.config();
+
+
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
     const [error,setError] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -21,7 +24,7 @@ function Login() {
       } 
       const users = JSON.parse(localStorage.getItem('users')) || [];
       const userFound = users.find(user => user.email === email);
-      if (email === 'admin@gmail.com' && password === 'admin00') {
+      if (email === process.env.REACT_APP_SOCIALIFY_ADMIN_EMAIL && password === process.env.REACT_APP_SOCIALIFY_ADMIN_PASSWORD) {
         dispatch(login({ email, password }));
         navigate('/admin');
       } else if (userFound) {
@@ -60,26 +63,11 @@ function Login() {
             
             />
               <CustomInput
-              type={showPassword ? 'text' : 'password'}
+              type='password'
               label="Password"
               value={password}
               onChange={(e) => setPassword(e)}
-              endAdornment={
-                <div onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer' }}>
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </div>
-              }
             />
-        {/* <TextField
-          className='block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 justify-center'
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          margin="normal"
-          size='small'
-          required
-        /> */}
         </Grid>
         {error && <p style = {{color : 'red'}}>{error}</p>}
         <Button className='flex w-9/12 rounded-md bg-indigo-600 ml-8 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-300' type="submit" variant="contained" onClick={handleSubmit}>
