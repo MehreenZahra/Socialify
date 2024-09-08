@@ -83,3 +83,23 @@
   background-color: white;
   color: #007bff; /* Change color only when focused or filled */
 }
+
+.passwordIcon {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eyeIcon {
+  color: #333; /* Default gray color */
+  transition: color 0.3s ease;
+}
+
+.eyeIcon.active {
+  color: #007bff; /* Blue color when active (clicked) */
+}
+
+.passwordIcon:hover .eyeIcon {
+  opacity: 0.8; /* Optional: adds a subtle hover effect */
+}

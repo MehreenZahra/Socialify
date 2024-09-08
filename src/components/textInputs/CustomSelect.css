@@ -3,19 +3,13 @@
   margin-bottom: 20px;
 }
 
-.custom-select label {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #333;
-}
-
 .select-wrapper {
   position: relative;
   cursor: pointer;
 }
 
 .selected-value {
+  width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -31,9 +25,15 @@
   background-color: #f0f8ff;
 }
 
+.custom-select.focused .selected-value {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
 .arrow {
   position: absolute;
-  right: 10px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   width: 0;
@@ -73,7 +73,7 @@
   border-radius: 0 0 4px 4px;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10; /* Increase this value */
+  z-index: 10;
 }
 
 .option {

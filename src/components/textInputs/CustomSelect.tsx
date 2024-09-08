@@ -23,9 +23,10 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   onChange,
   multiple = false,
   required = false,
-  fieldName = 'options', // Default to 'options' if not provided
+  fieldName = 'options',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (selectedValue: string) => {
@@ -49,6 +50,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
 
   const getDisplayValue = () => {
+    if (!isFocused && !value) {
+      return label || `Select ${fieldName}`;
+    }
     if (multiple && Array.isArray(value)) {
       const count = value.length;
       return count > 0 ? (
@@ -77,10 +81,20 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   }, []);
 
   return (
-    <div className="custom-select" ref={selectRef}>
-      <label>{label}{required && <span className="required">*</span>}</label>
-      <div className="select-wrapper" onClick={toggleDropdown}>
-        <div className="selected-value">{getDisplayValue()}</div>
+    <div className={`custom-select ${isOpen ? 'open' : ''} ${isFocused || value ? 'focused' : ''}`} ref={selectRef}>
+      <div 
+        className="select-wrapper" 
+        onClick={() => {
+          toggleDropdown();
+          setIsFocused(true);
+        }}
+        onBlur={() => setIsFocused(false)}
+        tabIndex={0}
+      >
+        <div className="selected-value">
+          {getDisplayValue()}
+        </div>
+        <div className="arrow"></div>
         {isOpen && (
           <div className="options">
             {options.map((option) => (
@@ -98,6 +112,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           </div>
         )}
       </div>
+      {required && <span className="required">*</span>}
     </div>
   );
 };
