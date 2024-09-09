@@ -1,6 +1,8 @@
+@import '../../../styles/variables.css';
+
 .inputContainer {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: var(--input-margin-bottom);
 }
 
 .inputWrapper {
@@ -9,40 +11,40 @@
 
 .inputContainer input,
 .inputContainer textarea {
-  width: 95%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: white;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  width: var(--input-width);
+  padding: var(--input-padding);
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  background-color: var(--input-background-color);
+  transition: var(--input-transition);
 }
 
 .inputContainer:hover input,
 .inputContainer:hover textarea {
-  border-color: #007bff;
-  background-color: #f0f8ff;
+  border-color: var(--input-hover-border-color);
+  background-color: var(--input-hover-background-color);
 }
 
 .inputContainer input:focus,
 .inputContainer textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  border-color: var(--input-focus-border-color);
+  box-shadow: var(--input-focus-box-shadow);
 }
 
 .label {
   position: absolute;
-  left: 10px;
+  left: var(--input-padding);
   top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #333;
-  transition: all 0.3s ease;
+  transform: var(--transform-center-y);
+  font-size: var(--label-font-size);
+  color: var(--label-color);
+  transition: var(--transition-all);
   pointer-events: none;
-  background-color: white;
-  padding: 0 5px;
-  z-index: 1; /* Ensure this is lower than the select dropdown */
+  background-color: var(--label-background);
+  padding: var(--label-padding);
+  z-index: 1;
 }
 
 .inputContainer.focused .label,
@@ -50,56 +52,56 @@
 .inputContainer textarea:not(:placeholder-shown) + .label,
 .textareaContainer .label {
   top: 0;
-  font-size: 14px;
-  color: #007bff;
-  transform: translateY(-50%);
+  font-size: var(--label-font-size);
+  color: var(--label-focus-color);
+  transform: var(--transform-center-y);
 }
 
 .icon {
   position: absolute;
-  right: 10px;
+  right: var(--icon-right-position);
   top: 50%;
-  transform: translateY(-50%);
+  transform: var(--transform-center-y);
   cursor: pointer;
 }
 
 .inputContainer textarea {
-  min-height: 100px;
+  min-height: var(--textarea-min-height);
   resize: vertical;
-  padding-top: 20px; /* Add space for the label */
+  padding-top: var(--textarea-padding-top);
 }
 
 /* Specific styles for textarea label */
 .textareaContainer .label {
-  top: 10px;
+  top: var(--textarea-label-top);
   transform: none;
-  background-color: transparent;
-  color: #333; /* Set the color to match other labels */
+  background-color: var(--textarea-label-background);
+  color: var(--label-color);
 }
 
 .textareaContainer.focused .label,
 .textareaContainer textarea:not(:placeholder-shown) + .label {
   top: 0;
-  background-color: white;
-  color: #007bff; /* Change color only when focused or filled */
+  background-color: var(--input-background-color);
+  color: var(--label-focus-color);
 }
 
 .passwordIcon {
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: var(--password-icon-display);
+  align-items: var(--password-icon-align);
+  justify-content: var(--password-icon-justify);
 }
 
 .eyeIcon {
-  color: #333; /* Default gray color */
-  transition: color 0.3s ease;
+  color: var(--label-color);
+  transition: var(--transition-all);
 }
 
 .eyeIcon.active {
-  color: #007bff; /* Blue color when active (clicked) */
+  color: var(--label-focus-color);
 }
 
 .passwordIcon:hover .eyeIcon {
-  opacity: 0.8; /* Optional: adds a subtle hover effect */
+  opacity: var(--eye-icon-opacity-hover);
 }
