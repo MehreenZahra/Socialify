@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './CustomInput.module.css';
+import styles from './styles.module.css';
 
 interface CustomInputProps {
   type: string;

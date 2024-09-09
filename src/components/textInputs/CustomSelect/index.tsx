@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './CustomSelect.css';
+import styles from './styles.module.css';
 
 interface Option {
   value: string;
@@ -81,9 +81,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   }, []);
 
   return (
-    <div className={`custom-select ${isOpen ? 'open' : ''} ${isFocused || value ? 'focused' : ''}`} ref={selectRef}>
+    <div className={`${styles.customSelect} ${isOpen ? styles.open : ''} ${isFocused || value ? styles.focused : ''}`} ref={selectRef}>
       <div 
-        className="select-wrapper" 
+        className={styles.selectWrapper}
         onClick={() => {
           toggleDropdown();
           setIsFocused(true);
@@ -91,16 +91,16 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         onBlur={() => setIsFocused(false)}
         tabIndex={0}
       >
-        <div className="selected-value">
+        <div className={styles.selectedValue}>
           {getDisplayValue()}
         </div>
-        <div className="arrow"></div>
+        <div className={styles.arrow}></div>
         {isOpen && (
-          <div className="options">
+          <div className={styles.options}>
             {options.map((option) => (
               <div
                 key={option.value}
-                className={`option ${Array.isArray(value) && value.includes(option.value) ? 'selected' : ''}`}
+                className={`${styles.option} ${Array.isArray(value) && value.includes(option.value) ? styles.selected : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   handleChange(option.value);
@@ -112,7 +112,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           </div>
         )}
       </div>
-      {required && <span className="required">*</span>}
+      {required && <span className={styles.required}>*</span>}
     </div>
   );
 };
