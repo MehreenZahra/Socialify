@@ -81,7 +81,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   }, []);
 
   return (
-    <div className={`${styles.customSelect} ${isOpen ? styles.open : ''} ${isFocused || value ? styles.focused : ''}`} ref={selectRef}>
+    <div className={`${styles.customSelect} ${isOpen || isFocused || value ? styles.focused : ''}`} ref={selectRef}>
       <div 
         className={styles.selectWrapper}
         onClick={() => {
@@ -94,6 +94,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         <div className={styles.selectedValue}>
           {getDisplayValue()}
         </div>
+        {label && <span className={styles.label}>{label}</span>}
         <div className={styles.arrow}></div>
         {isOpen && (
           <div className={styles.options}>

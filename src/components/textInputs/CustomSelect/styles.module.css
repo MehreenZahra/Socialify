@@ -1,14 +1,14 @@
-.custom-select {
+.customSelect {
   position: relative;
   margin-bottom: 20px;
 }
 
-.select-wrapper {
+.selectWrapper {
   position: relative;
   cursor: pointer;
 }
 
-.selected-value {
+.selectedValue {
   width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -20,12 +20,12 @@
   align-items: center;
 }
 
-.custom-select:hover .selected-value {
+.customSelect:hover .selectedValue {
   border-color: #007bff;
   background-color: #f0f8ff;
 }
 
-.custom-select.focused .selected-value {
+.customSelect.focused .selectedValue {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
@@ -44,7 +44,11 @@
   transition: transform 0.3s ease;
 }
 
-.custom-select.open .arrow {
+.customSelect.open .arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.customSelect.focused .arrow {
   transform: translateY(-50%) rotate(180deg);
 }
 
@@ -87,7 +91,27 @@
   background-color: #f0f0f0;
 }
 
-.custom-select .required {
+.customSelect .required {
   color: red;
   margin-left: 0.25rem;
+}
+
+.label {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #333;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  background-color: white;
+  padding: 0 5px;
+}
+
+.customSelect.focused .label {
+  top: 0;
+  font-size: 12px;
+  color: #007bff;
+  transform: translateY(-50%);
 }

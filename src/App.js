@@ -4,7 +4,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import Home from './components/Home/Home';
 import Feed from './components/Home/Feed';
-import Signup2 from './components/Home/Signup2';
+// import Signup2 from './components/Home/Signup2';
 import EditProfile from './components/Profile Pages/EditProfile';
 import ChangePassword from './components/Profile Pages/ChangePassword';
 import AdminLayout from './components/adminPage/AdminLayout';
@@ -16,7 +16,7 @@ const App = () => {
         <Route exact path="" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path='/admin' element={<AdminLayout/>}/>
-        <Route path="/signup2" element={<Signup2/>} />
+        {/* <Route path="/signup2" element={<Signup2/>} /> */}
         <Route path="/home" element={<Home/>} >
            <Route index element={<Feed />} />
            <Route path="edit-profile" element={<EditProfile />} />
