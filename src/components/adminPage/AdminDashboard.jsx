@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchQuery, setFilterGender, blockUser, unblockUser } from '../../store/adminSlice'; 
 
+
 const AdminDashboard = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.admin.users);
@@ -74,6 +75,9 @@ const [selectedUsers, setSelectedUsers] = useState([]);
     <div className="flex flex-col h-screen bg-white-100">
       <div className="bg-white p-4 flex justify-start h-16 items-center shadow">
         <h1 className="text-2xl font-bold ">Hello Admin</h1>
+        
+        {/* <InputField type='text' placeholder='search' className="ml-4"/> */}
+        {/* <Input type='text' placeholder='email'/> */}
       </div>
         <div className="bg-gray-50 w-auto p-4"> 
           <div className="bg-white-200 p-4 rounded shadow">

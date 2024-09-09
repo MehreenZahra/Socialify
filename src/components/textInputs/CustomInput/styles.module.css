@@ -1,0 +1,107 @@
+@import '../../../styles/variables.css';
+
+.inputContainer {
+  position: relative;
+  margin-bottom: var(--input-margin-bottom);
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputContainer input,
+.inputContainer textarea {
+  width: var(--input-width);
+  padding: var(--input-padding);
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  background-color: var(--input-background-color);
+  transition: var(--input-transition);
+}
+
+.inputContainer:hover input,
+.inputContainer:hover textarea {
+  border-color: var(--input-hover-border-color);
+  background-color: var(--input-hover-background-color);
+}
+
+.inputContainer input:focus,
+.inputContainer textarea:focus {
+  outline: none;
+  border-color: var(--input-focus-border-color);
+  box-shadow: var(--input-focus-box-shadow);
+}
+
+.label {
+  position: absolute;
+  left: var(--input-padding);
+  top: 50%;
+  transform: var(--transform-center-y);
+  font-size: var(--label-font-size);
+  color: var(--label-color);
+  transition: var(--transition-all);
+  pointer-events: none;
+  background-color: var(--label-background);
+  padding: var(--label-padding);
+  z-index: 1;
+}
+
+.inputContainer.focused .label,
+.inputContainer input:not(:placeholder-shown) + .label,
+.inputContainer textarea:not(:placeholder-shown) + .label,
+.textareaContainer .label {
+  top: 0;
+  font-size: var(--label-font-size);
+  color: var(--label-focus-color);
+  transform: var(--transform-center-y);
+}
+
+.icon {
+  position: absolute;
+  right: var(--icon-right-position);
+  top: 50%;
+  transform: var(--transform-center-y);
+  cursor: pointer;
+}
+
+.inputContainer textarea {
+  min-height: var(--textarea-min-height);
+  resize: vertical;
+  padding-top: var(--textarea-padding-top);
+}
+
+/* Specific styles for textarea label */
+.textareaContainer .label {
+  top: var(--textarea-label-top);
+  transform: none;
+  background-color: var(--textarea-label-background);
+  color: var(--label-color);
+}
+
+.textareaContainer.focused .label,
+.textareaContainer textarea:not(:placeholder-shown) + .label {
+  top: 0;
+  background-color: var(--input-background-color);
+  color: var(--label-focus-color);
+}
+
+.passwordIcon {
+  cursor: pointer;
+  display: var(--password-icon-display);
+  align-items: var(--password-icon-align);
+  justify-content: var(--password-icon-justify);
+}
+
+.eyeIcon {
+  color: var(--label-color);
+  transition: var(--transition-all);
+}
+
+.eyeIcon.active {
+  color: var(--label-focus-color);
+}
+
+.passwordIcon:hover .eyeIcon {
+  opacity: var(--eye-icon-opacity-hover);
+}

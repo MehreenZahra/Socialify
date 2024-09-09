@@ -1,0 +1,116 @@
+@import '../../../styles/variables.css';
+
+.customSelect {
+  position: relative;
+  margin-bottom: var(--input-margin-bottom);
+}
+
+.selectWrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.selectedValue {
+  width: var(--input-width);
+  padding: var(--input-padding);
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  font-size: var(--input-font-size);
+  background-color: var(--input-background-color);
+  transition: var(--input-transition);
+  display: flex;
+  align-items: center;
+}
+
+.customSelect:hover .selectedValue {
+  border-color: var(--input-hover-border-color);
+  background-color: var(--input-hover-background-color);
+}
+
+.customSelect.focused .selectedValue {
+  outline: none;
+  border-color: var(--input-focus-border-color);
+  box-shadow: var(--input-focus-box-shadow);
+}
+
+.arrow {
+  position: absolute;
+  right: var(--select-arrow-right);
+  top: 50%;
+  transform: var(--transform-center-y);
+  width: 0;
+  height: 0;
+  border-left: var(--select-arrow-size) solid var(--select-arrow-border-color);
+  border-right: var(--select-arrow-size) solid var(--select-arrow-border-color);
+  border-top: var(--select-arrow-size) solid var(--select-arrow-color);
+  transition: var(--transition-all);
+}
+
+.customSelect.open .arrow,
+.customSelect.focused .arrow {
+  transform: var(--transform-center-y) var(--transform-rotate-180);
+}
+
+.selected-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--selected-count-size);
+  height: var(--selected-count-size);
+  border-radius: var(--selected-count-border-radius);
+  background-color: var(--selected-count-background);
+  color: var(--selected-count-color);
+  font-size: var(--selected-count-font-size);
+  font-weight: var(--selected-count-font-weight);
+  margin-right: var(--selected-count-margin-right);
+}
+
+.options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--input-background-color);
+  border: var(--input-border-width) solid var(--input-border-color);
+  border-top: none;
+  border-radius: 0 0 var(--input-border-radius) var(--input-border-radius);
+  max-height: var(--options-max-height);
+  overflow-y: auto;
+  z-index: var(--options-z-index);
+}
+
+.option {
+  padding: var(--input-padding);
+  cursor: var(--option-cursor);
+  transition: var(--transition-all);
+}
+
+.option:hover,
+.option.selected {
+  background-color: var(--select-option-hover-color);
+}
+
+.customSelect .required {
+  color: var(--required-color);
+  margin-left: var(--required-margin-left);
+}
+
+.label {
+  position: absolute;
+  left: var(--input-padding);
+  top: 50%;
+  transform: var(--transform-center-y);
+  font-size: var(--label-font-size);
+  color: var(--label-color);
+  transition: var(--transition-all);
+  pointer-events: none;
+  background-color: var(--label-background);
+  padding: var(--label-padding);
+}
+
+.customSelect.focused .label {
+  top: 0;
+  font-size: calc(var(--label-font-size) - 2px);
+  color: var(--label-focus-color);
+  transform: var(--transform-center-y);
+}

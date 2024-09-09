@@ -1,37 +1,34 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography,  MenuItem, FormControl, InputLabel, Select , CssBaseline, Grid, Stack, Avatar, Link, Box, IconButton} from '@mui/material';
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {  Button, Container, Typography, FormControl,  CssBaseline,  Stack, Avatar, Link, Box } from '@mui/material';
 import LockTwoToneIcon from '@mui/icons-material/LockTwoTone';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../store/userSlice';
 import { nanoid } from '@reduxjs/toolkit';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import CustomInput from './textInputs/CustomInput';
+import CustomSelect from './textInputs/CustomSelect';
 
 function Signup() { 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState ('')
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender , setGender] = useState('');
+  const [gender, setGender] = useState('');
   const [dob, setDob] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError]= useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email || !password || !firstName){
-      setError ('All fields are required');
+    if (!email || !password || !firstName) {
+      setError('All fields are required');
       return;
-    } else if (password !== confirmPassword){
-      setError ('Password donot match')
+    } else if (password !== confirmPassword) {
+      setError('Password donot match');
       return;
-    } 
+    }
     const existingUser = JSON.parse(localStorage.getItem('users')).find((user) => user.email === email);
 
     if (existingUser) {
@@ -39,8 +36,8 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
       return;
     }
     const userId = nanoid();
-    const role = firstName.toLowerCase() === 'admin' ? 'admin' : 'user'; 
-    dispatch(signup({ email, password, firstName, lastName, dob,userId ,gender,role}))
+    const role = firstName.toLowerCase() === 'admin' ? 'admin' : 'user';
+    dispatch(signup({ email, password, firstName, lastName, dob, userId, gender, role }));
     if (role === 'admin') {
       navigate('/admin');
     } else {
@@ -48,147 +45,131 @@ const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     }
   };
   const handleLoginRedirect = () => {
-        navigate("/");
-       };
-  return (   
-      <Container component='main' maxWidth='sm' align='center'>
-        <CssBaseline>
-      <form className="bg-white rounded-lg shadow-lg p-20 w-full " onSubmit={handleSubmit}>
-        <Box align='center' sx={{mb: 2 }}>
-          <Avatar className=' bg-blue-500'>
-          <LockTwoToneIcon/>
-         </Avatar>
-        </Box>
-      <Typography component="h1" variant="h4" align='center' className="mb-8 font-semibold">Signup</Typography>
-        <Stack spacing={2} direction="row" sx={{marginBottom: 1}}>
-        <TextField
-        className='w-1/2 m-1'
-          label="First Name"
-          helperText={'Your name must start with Capital letter'}
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          fullWidth
-          margin="none"
-        />
-        <TextField
-        className='w-1/2 m-1'
-          label="Last Name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          fullWidth
-          margin="none"
-        />
-        </Stack>
-        <TextField
-          Required
-          className='p-1'
-          label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-          margin="none"
-          sx={{mb: 3 }}
-        />
-        <Stack spacing={2} direction="row" sx={{marginBottom: 1}}>
-        <TextField
-         Required
-        className='w-1/2 m-1'
-          label="Password"
-          // type="password"
-          type={showPassword ? 'text' : 'password'}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          margin="none"
-         
-          InputProps={{
-            endAdornment: (
-              <IconButton 
-              sx={{
-                color: showPassword ? 'blue' : 'gray',
+    navigate("/");
+  };
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' }
+  ];
+
+  return (
+    <Container component='main' maxWidth='sm'>
+      <CssBaseline />
+      <Box className="mt-8 mx-auto max-w-md">
+        <form className="bg-white rounded-lg shadow-lg p-8" onSubmit={handleSubmit}>
+          <Box className="flex flex-col items-center mb-6">
+            <Avatar className="bg-blue-500 mb-2">
+              <LockTwoToneIcon />
+            </Avatar>
+            <Typography component="h1" variant="h4" className="font-semibold">
+              Signup
+            </Typography>
+          </Box>
+          <Stack spacing={3}>
+            <Stack direction="row" spacing={2}>
+              <CustomInput
+                className='w-1/2'
+                label="First Name"
+                helperText={'Start with Capital letter'}
+                value={firstName}
+                onChange={(e) => setFirstName(e)}
+                fullWidth
+              />
+              <CustomInput
+                className='w-1/2'
+                label="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e)}
+                fullWidth
+              />
+            </Stack>
+            <CustomInput
+              required
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e)}
+              fullWidth
+            />
+            <Stack direction="row" spacing={2}>
+              <CustomInput
+                required
+                className='w-1/2 pr-8' // Added pr-8 for padding-right
+                label="Password"
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e)}
+                iconClassName="right-5" // New prop for icon positioning
+              />
+              <CustomInput
+                required
+                className='w-1/2 pr-8' // Added pr-8 for padding-right
+                label="Confirm Password"
+                type='password'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e)}
+                iconClassName="right-5" // New prop for icon positioning
+              />
+            </Stack>
+            <CustomInput
+              className='w-1/2'
+              type="date"
+              label="Date of Birth"
+              onChange={(value) => {
+                if (value) {
+                  const selectedDate = new Date(value);
+                  const formattedDob = selectedDate.toISOString();
+                  setDob(formattedDob);
+                }
               }}
-              onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <VisibilityOff sx={{fontSize:16}}/> : <Visibility sx={{fontSize:16}}/>}
-              </IconButton>
-            ),
-          }}
-        />
-        <TextField
-         Required
-         className='w-1/2 m-1'
-          label="Confirm Password"
-          // type="password"
-          type={showConfirmPassword ? 'text' : 'password'}
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          margin="none"
-          sx={{mb: 3 }}
-          InputProps={{
-            endAdornment: (
-              <IconButton 
-              sx={{
-                color: showConfirmPassword ? 'blue' : 'gray',
-                fontSize: '10px',
-              }} 
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                {showConfirmPassword ? <VisibilityOff sx={{fontSize:16}} /> : <Visibility sx={{fontSize:16}} />}
-              </IconButton>
-            ),
-          }}
-        />
-        </Stack>
-        <Stack spacing={0.5} direction="row" sx={{marginBottom: 1 , marginTop:3}}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            className='w-1/2 m-1'
-            label="Date of Birth"
-            // value={dobDateObject} 
-            onChange={(newValue) => {
-              const dobDateObject = newValue;
-              const formattedDob = dobDateObject.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-              setDob(formattedDob);}}
-            margin="none"
-          />
-        </LocalizationProvider>
-        <FormControl variant="outlined"  sx={{ m: 1, minWidth: 120 }}>
-            <InputLabel id="gender-label">Gender</InputLabel>
-            <Select
-              labelId="gender-label"
-              value={gender}
-              label="Gender"
-              margin='none'
-              sx={{mb: 3, marginY : 0.5 }}
-              onChange={(e) => setGender(e.target.value)} 
+              placeholder="dd/mm/yyyy"
+            />
+            <FormControl className='w-1/2'>
+              <CustomSelect
+                label="Gender"
+                type='Gender'
+                value={gender}
+                onChange={(e) => setGender(e)}
+                options={genderOptions}
+                fullWidth
+                className='align-center'
+              />
+            </FormControl>
+          </Stack>
+          {error && <Typography color="error" className="text-center mt-2">{error}</Typography>}
+          <Box className="mt-6 flex justify-center">
+            <Button
+              type="submit"
+              variant="contained"
+              size='large'
+              className='w-full rounded-md bg-indigo-600 text-white font-semibold shadow-sm hover:bg-indigo-500'
+              onClick={handleSubmit}
             >
-              <MenuItem value="">None</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
-            </Select>
-        </FormControl>
-        </Stack>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <div className='flex justify-center py-4'>
-        <Button type="submit" variant="contained"  size='medium' className='w-1/2 rounded-md bg-indigo-600 text-sm font-semibold text-white leading-6 shadow-sm hover:bg-indigo-300'   onClick={handleSubmit}>
-        Signup
-        </Button>
-        </div>
-         <Grid container justifyContent="flex-end">
-            <Grid item>
-            <Link className='text-blue-500 hover:underline my-4' component="button" variant="body2" onClick={handleLoginRedirect}>
-                Already have an account? Log in
-              </Link>
-            </Grid>
-          </Grid>
-      </form>
-      <Box mt={5}>
-      <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="/home">
-        Socialify
-      </Link>
-    </Typography>
+              Signup
+            </Button>
+          </Box>
+          <Box className="mt-4 text-center">
+            <Link
+              className='text-blue-500 hover:underline'
+              component="button"
+              variant="body2"
+              onClick={handleLoginRedirect}
+            >
+              Already have an account? Log in
+            </Link>
+          </Box>
+        </form>
       </Box>
-      </CssBaseline>
+      <Box mt={5}>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" href="/home">
+            Socialify
+          </Link>
+          {' '}
+          {new Date().getFullYear()}
+        </Typography>
+      </Box>
     </Container>
   )
 }
